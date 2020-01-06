@@ -15,7 +15,7 @@ public final class MKModuleManager {
     // notification center
     public let notificationCenter: NotificationCenter = NotificationCenter()
     
-    var modules: [MKModuleProtocol] {
+    public var modules: [MKModuleProtocol] {
         return serialQueue.sync { _modules }
     }
 
@@ -55,6 +55,12 @@ public extension MKModuleManager {
             if forEach(module) {
                 return
             }
+        }
+    }
+    
+    class func sendCustomEvent(parameters: [AnyHashable: Any]) {
+        return dispatch {
+            $0.moduleHandleCustomEvent(parameters: parameters)
         }
     }
 }

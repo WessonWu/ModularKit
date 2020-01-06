@@ -12,6 +12,8 @@
 		0A1F19AD23BF40BD00CED36F /* MKModuleProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1F19AC23BF40BD00CED36F /* MKModuleProtocol.swift */; };
 		0A1F19AF23BF429500CED36F /* MKApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1F19AE23BF429500CED36F /* MKApplicationDelegate.swift */; };
 		0A4372A123C2C510005012CB /* MKModuleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4372A023C2C510005012CB /* MKModuleManager.swift */; };
+		0A9C464723C349FC000749A5 /* MKServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C464623C349FC000749A5 /* MKServiceProtocol.swift */; };
+		0A9C464923C34A37000749A5 /* MKServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C464823C34A37000749A5 /* MKServiceManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		0A1F19AC23BF40BD00CED36F /* MKModuleProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKModuleProtocol.swift; sourceTree = "<group>"; };
 		0A1F19AE23BF429500CED36F /* MKApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKApplicationDelegate.swift; sourceTree = "<group>"; };
 		0A4372A023C2C510005012CB /* MKModuleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKModuleManager.swift; sourceTree = "<group>"; };
+		0A9C464623C349FC000749A5 /* MKServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKServiceProtocol.swift; sourceTree = "<group>"; };
+		0A9C464823C34A37000749A5 /* MKServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKServiceManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,8 @@
 				0A1F19AC23BF40BD00CED36F /* MKModuleProtocol.swift */,
 				0A1F19AE23BF429500CED36F /* MKApplicationDelegate.swift */,
 				0A4372A023C2C510005012CB /* MKModuleManager.swift */,
+				0A9C464623C349FC000749A5 /* MKServiceProtocol.swift */,
+				0A9C464823C34A37000749A5 /* MKServiceManager.swift */,
 			);
 			path = ModKit;
 			sourceTree = "<group>";
@@ -146,6 +152,8 @@
 			files = (
 				0A1F19AB23BF404000CED36F /* MKContext.swift in Sources */,
 				0A4372A123C2C510005012CB /* MKModuleManager.swift in Sources */,
+				0A9C464723C349FC000749A5 /* MKServiceProtocol.swift in Sources */,
+				0A9C464923C34A37000749A5 /* MKServiceManager.swift in Sources */,
 				0A1F19AD23BF40BD00CED36F /* MKModuleProtocol.swift in Sources */,
 				0A1F19AF23BF429500CED36F /* MKApplicationDelegate.swift in Sources */,
 			);

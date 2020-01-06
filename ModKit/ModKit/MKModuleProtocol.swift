@@ -79,6 +79,10 @@ public protocol MKModuleProtocol {
     func moduleUserNotificationCenterDidReceiveResponse(center: UNUserNotificationCenter, response: UNNotificationResponse, completionHandler: @escaping () -> Void)
     @available(iOS 12.0, *)
     func moduleUserNotificationCenterOpenSettingsFor(center: UNUserNotificationCenter, notification: UNNotification?)
+    
+    
+    // MARK: - CustomAction
+    func moduleHandleCustomEvent(parameters: [AnyHashable: Any])
 }
 
 
@@ -146,4 +150,8 @@ public extension MKModuleProtocol {
     func moduleUserNotificationCenterDidReceiveResponse(center: UNUserNotificationCenter, response: UNNotificationResponse, completionHandler: @escaping () -> Void) {}
     @available(iOS 12.0, *)
     func moduleUserNotificationCenterOpenSettingsFor(center: UNUserNotificationCenter, notification: UNNotification?) {}
+    
+    
+    // MARK: - CustomAction
+    func moduleHandleCustomAction(withParameters parameters: [AnyHashable: Any]) {}
 }
