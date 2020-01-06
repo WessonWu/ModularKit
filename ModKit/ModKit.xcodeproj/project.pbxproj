@@ -9,8 +9,9 @@
 /* Begin PBXBuildFile section */
 		0A1F196D23BF3F1E00CED36F /* ModKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A1F196B23BF3F1E00CED36F /* ModKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A1F19AB23BF404000CED36F /* MKContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1F19AA23BF404000CED36F /* MKContext.swift */; };
-		0A1F19AD23BF40BD00CED36F /* MKModular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1F19AC23BF40BD00CED36F /* MKModular.swift */; };
+		0A1F19AD23BF40BD00CED36F /* MKModuleProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1F19AC23BF40BD00CED36F /* MKModuleProtocol.swift */; };
 		0A1F19AF23BF429500CED36F /* MKApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1F19AE23BF429500CED36F /* MKApplicationDelegate.swift */; };
+		0A4372A123C2C510005012CB /* MKModuleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4372A023C2C510005012CB /* MKModuleManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -18,8 +19,9 @@
 		0A1F196B23BF3F1E00CED36F /* ModKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModKit.h; sourceTree = "<group>"; };
 		0A1F196C23BF3F1E00CED36F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A1F19AA23BF404000CED36F /* MKContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKContext.swift; sourceTree = "<group>"; };
-		0A1F19AC23BF40BD00CED36F /* MKModular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKModular.swift; sourceTree = "<group>"; };
+		0A1F19AC23BF40BD00CED36F /* MKModuleProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKModuleProtocol.swift; sourceTree = "<group>"; };
 		0A1F19AE23BF429500CED36F /* MKApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKApplicationDelegate.swift; sourceTree = "<group>"; };
+		0A4372A023C2C510005012CB /* MKModuleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKModuleManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,8 +57,9 @@
 				0A1F196B23BF3F1E00CED36F /* ModKit.h */,
 				0A1F196C23BF3F1E00CED36F /* Info.plist */,
 				0A1F19AA23BF404000CED36F /* MKContext.swift */,
-				0A1F19AC23BF40BD00CED36F /* MKModular.swift */,
+				0A1F19AC23BF40BD00CED36F /* MKModuleProtocol.swift */,
 				0A1F19AE23BF429500CED36F /* MKApplicationDelegate.swift */,
+				0A4372A023C2C510005012CB /* MKModuleManager.swift */,
 			);
 			path = ModKit;
 			sourceTree = "<group>";
@@ -142,7 +145,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A1F19AB23BF404000CED36F /* MKContext.swift in Sources */,
-				0A1F19AD23BF40BD00CED36F /* MKModular.swift in Sources */,
+				0A4372A123C2C510005012CB /* MKModuleManager.swift in Sources */,
+				0A1F19AD23BF40BD00CED36F /* MKModuleProtocol.swift in Sources */,
 				0A1F19AF23BF429500CED36F /* MKApplicationDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
