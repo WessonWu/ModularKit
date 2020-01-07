@@ -9,6 +9,4 @@
 import Foundation
 
 
-public protocol MKServiceProtocol {
-    init()
-}
+public protocol MKServiceProtocol {}
