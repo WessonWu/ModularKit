@@ -85,6 +85,15 @@ class TestMKServiceManager: XCTestCase {
             let serviceB = manager.createService(named: testB) as? TestProtocol
             XCTAssert(serviceB?.test() == testB)
         }
+        
+        do {
+            XCTAssertNotNil(manager.unregisterService(named: testA))
+            XCTAssertNotNil(manager.unregisterService(TestAProtocol.self))
+            XCTAssertNil(manager.createService(named: testA))
+            XCTAssertNotNil(manager.createService(named: testB))
+            XCTAssertNil(manager.createService(TestAProtocol.self))
+            XCTAssertNotNil(manager.createService(TestBProtocol.self))
+        }
     }
     
     func testServicesWithProtocol() {
@@ -116,6 +125,7 @@ class TestMKServiceManager: XCTestCase {
     func testServiceCache() {
         let testA = "TestA"
         let testB = "TestB"
+        manager.cleanAllServiceCache()
         
         do {
             manager.registerService(named: testA, creator: { TestAImpl() })
@@ -124,6 +134,9 @@ class TestMKServiceManager: XCTestCase {
             XCTAssertNotNil(serviceA1)
             XCTAssertNotNil(serviceA2)
             XCTAssert(serviceA1?.value == serviceA2?.value)
+            
+            manager.cleanServiceCache(named: testA)
+            XCTAssertNil(manager.getService(named: testA))
             
             manager.registerService(named: testB, creator: { TestBImpl() })
             let serviceB1 = manager.createService(named: testB, shouldCache: false) as? TestProtocol

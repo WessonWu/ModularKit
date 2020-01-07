@@ -14,7 +14,6 @@
 		0A4372A123C2C510005012CB /* MKModuleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4372A023C2C510005012CB /* MKModuleManager.swift */; };
 		0A9C464723C349FC000749A5 /* MKServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C464623C349FC000749A5 /* MKServiceProtocol.swift */; };
 		0A9C464923C34A37000749A5 /* MKServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C464823C34A37000749A5 /* MKServiceManager.swift */; };
-		0A9C465123C41406000749A5 /* ModKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C465023C41406000749A5 /* ModKitTests.swift */; };
 		0A9C465323C41406000749A5 /* ModKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A1F196823BF3F1E00CED36F /* ModKit.framework */; };
 		0A9C465C23C4649C000749A5 /* TestMKServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C465B23C4649C000749A5 /* TestMKServiceManager.swift */; };
 /* End PBXBuildFile section */
@@ -40,7 +39,6 @@
 		0A9C464623C349FC000749A5 /* MKServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKServiceProtocol.swift; sourceTree = "<group>"; };
 		0A9C464823C34A37000749A5 /* MKServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKServiceManager.swift; sourceTree = "<group>"; };
 		0A9C464E23C41406000749A5 /* ModKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ModKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0A9C465023C41406000749A5 /* ModKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModKitTests.swift; sourceTree = "<group>"; };
 		0A9C465223C41406000749A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A9C465B23C4649C000749A5 /* TestMKServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMKServiceManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -100,7 +98,6 @@
 		0A9C464F23C41406000749A5 /* ModKitTests */ = {
 			isa = PBXGroup;
 			children = (
-				0A9C465023C41406000749A5 /* ModKitTests.swift */,
 				0A9C465223C41406000749A5 /* Info.plist */,
 				0A9C465B23C4649C000749A5 /* TestMKServiceManager.swift */,
 			);
@@ -231,7 +228,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A9C465C23C4649C000749A5 /* TestMKServiceManager.swift in Sources */,
-				0A9C465123C41406000749A5 /* ModKitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
