@@ -26,6 +26,11 @@ public final class MKServiceManager {
 
 // MARK: - Service Register & Unregister
 extension MKServiceManager {
+    @inlinable
+    public class func serviceName<T>(of value: T) -> String {
+        return String(describing: value)
+    }
+    
     // MARK: - Register With Service Name
     /// 通过服务名称(named)注册ServiceCreator
     /// - Parameters:
@@ -61,7 +66,7 @@ extension MKServiceManager {
     ///   - service: 服务接口
     ///   - creator: 服务构造者
     public func registerService<Service>(_ service: Service.Type, creator: @escaping () -> Service) {
-        registerService(named: String(describing: service), creator: creator)
+        registerService(named: MKServiceManager.serviceName(of: service), creator: creator)
     }
     
     /// 通过服务接口注册ServiceCreator
@@ -69,7 +74,7 @@ extension MKServiceManager {
     ///   - service: 服务接口
     ///   - lazyCreator: 延迟实例化构造者 (如：```registerService(named: "A", lazyCreator: A())```)
     public func registerService<Service>(_ service: Service.Type, lazyCreator: @escaping @autoclosure () -> Service) {
-        registerService(named: String(describing: service), creator: lazyCreator)
+        registerService(named: MKServiceManager.serviceName(of: service), creator: lazyCreator)
     }
     
     /// 通过服务接口注册一个服务实例 (存在缓存中)
@@ -77,7 +82,7 @@ extension MKServiceManager {
     ///   - service: 服务接口
     ///   - instance: 服务实例
     public func registerService<Service>(_ service: Service.Type, instance: Service) {
-        registerService(named: String(describing: service), instance: instance)
+        registerService(named: MKServiceManager.serviceName(of: service), instance: instance)
     }
     
     // MARK: - Unregister Service
@@ -96,7 +101,22 @@ extension MKServiceManager {
     /// - Parameter service: 服务接口
     @discardableResult
     public func unregisterService<Service>(_ service: Service) -> Service? {
-        return unregisterService(named: String(describing: service)) as? Service
+        return unregisterService(named: MKServiceManager.serviceName(of: service)) as? Service
+    }
+}
+
+// MARK: - Register Batch Services
+extension MKServiceManager {
+    public typealias BatchServiceMap = [String: ServiceCreator]
+    public typealias ServiceEntry = BatchServiceMap.Element
+    public func registerService(_ services: BatchServiceMap) {
+        serviceQueue.async {
+            self.creatorsMap.merge(services, uniquingKeysWith: { _, v2 in v2 })
+        }
+    }
+    
+    public func registerService(entryLiteral entries: ServiceEntry ...) {
+        return registerService(BatchServiceMap(entries, uniquingKeysWith: {_, v2 in v2}))
     }
 }
 
@@ -130,7 +150,7 @@ extension MKServiceManager {
     ///   - service: 服务接口
     ///   - shouldCache: 是否需要缓存
     public func createService<Service>(_ service: Service.Type, shouldCache: Bool = true) -> Service? {
-        return createService(named: String(describing: service), shouldCache: shouldCache) as? Service
+        return createService(named: MKServiceManager.serviceName(of: service), shouldCache: shouldCache) as? Service
     }
 }
 
@@ -147,6 +167,28 @@ extension MKServiceManager {
     /// 通过服务接口获取服务
     /// - Parameter service: 服务接口
     public func getService<Service>(_ service: Service.Type) -> Service? {
-        return getService(named: String(describing: service)) as? Service
+        return getService(named: MKServiceManager.serviceName(of: service)) as? Service
+    }
+}
+
+
+// MARK: - Service Clean Cache
+extension MKServiceManager {
+    public func cleanAllServiceCache() {
+        serviceQueue.async {
+            self.servicesCache.removeAll()
+        }
+    }
+    
+    @discardableResult
+    public func cleanServiceCache(named: String) -> Any? {
+        return serviceQueue.sync {
+            return self.servicesCache.removeValue(forKey: named)
+        }
+    }
+    
+    @discardableResult
+    public func cleanServiceCache<Service>(by service: Service.Type) -> Service? {
+        return cleanServiceCache(named: MKServiceManager.serviceName(of: service)) as? Service
     }
 }
