@@ -8,23 +8,16 @@
 
 import UIKit
 
-public struct MKModulePriority: RawRepresentable {
-    public typealias RawValue = Int
-    public let rawValue: Int
-    
-    public init(rawValue: Int) {
-        self.rawValue = rawValue
-    }
-    
-    public static let `default` = MKModulePriority(rawValue: 0)
-}
-
-
-public protocol MKModuleProtocol {
+public protocol MKModuleProtocol: NSObject {
+    init() 
+    // MARK: - Level & Priority
+    var moduleLevel: MKModuleLevel { get }
     var modulePriority: MKModulePriority { get }
+    // MARK: - Common
+    func moduleSetUp(context: MKContext)
+    func moduleTearDown(context: MKContext)
     
     // MARK: - Life Cycle
-    func moduleWillFinishLaunching(application: UIApplication, launchOptions: [UIApplication.LaunchOptionsKey : Any]?) -> Bool // 返回值为各个模块进行合并，所有默认返回true  (mod1 && mod2 && ...)
     func moduleDidFinishLaunching(application: UIApplication, launchOptions: [UIApplication.LaunchOptionsKey : Any]?) -> Bool // 返回值为各个模块进行合并，所有默认返回true  (mod1 && mod2 && ...)
     
     func moduleWillResignActive(application: UIApplication)
@@ -87,9 +80,15 @@ public protocol MKModuleProtocol {
 
 
 public extension MKModuleProtocol {
+    var moduleLevel: MKModuleLevel {
+        return .normal
+    }
     var modulePriority: MKModulePriority {
         return .default
     }
+    
+    func moduleSetUp(context: MKContext) {}
+    func moduleTearDown(context: MKContext) {}
     
     func moduleWillFinishLaunching(application: UIApplication, launchOptions: [UIApplication.LaunchOptionsKey : Any]?) -> Bool {
         return true
@@ -153,5 +152,5 @@ public extension MKModuleProtocol {
     
     
     // MARK: - CustomAction
-    func moduleHandleCustomAction(withParameters parameters: [AnyHashable: Any]) {}
+    func moduleHandleCustomEvent(parameters: [AnyHashable : Any]) {}
 }

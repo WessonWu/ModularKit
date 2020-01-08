@@ -10,11 +10,6 @@ import UIKit
 
 open class MKApplicationDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Application Life Cycle
-    open func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        return MKModuleManager.dispatch(true) {
-            $0 && $1.moduleWillFinishLaunching(application: application, launchOptions: launchOptions)
-        }
-    }
     open func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         if #available(iOS 10.0, *) {
             UNUserNotificationCenter.current().delegate = self

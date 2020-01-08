@@ -16,6 +16,8 @@
 		0A9C464923C34A37000749A5 /* MKServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C464823C34A37000749A5 /* MKServiceManager.swift */; };
 		0A9C465323C41406000749A5 /* ModKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A1F196823BF3F1E00CED36F /* ModKit.framework */; };
 		0A9C465C23C4649C000749A5 /* TestMKServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C465B23C4649C000749A5 /* TestMKServiceManager.swift */; };
+		0A9C465E23C57DC1000749A5 /* TestModuleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C465D23C57DC1000749A5 /* TestModuleManager.swift */; };
+		0A9C466023C5A962000749A5 /* MKDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C465F23C5A962000749A5 /* MKDefines.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +43,8 @@
 		0A9C464E23C41406000749A5 /* ModKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ModKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A9C465223C41406000749A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A9C465B23C4649C000749A5 /* TestMKServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMKServiceManager.swift; sourceTree = "<group>"; };
+		0A9C465D23C57DC1000749A5 /* TestModuleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestModuleManager.swift; sourceTree = "<group>"; };
+		0A9C465F23C5A962000749A5 /* MKDefines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKDefines.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +95,7 @@
 				0A4372A023C2C510005012CB /* MKModuleManager.swift */,
 				0A9C464623C349FC000749A5 /* MKServiceProtocol.swift */,
 				0A9C464823C34A37000749A5 /* MKServiceManager.swift */,
+				0A9C465F23C5A962000749A5 /* MKDefines.swift */,
 			);
 			path = ModKit;
 			sourceTree = "<group>";
@@ -100,6 +105,7 @@
 			children = (
 				0A9C465223C41406000749A5 /* Info.plist */,
 				0A9C465B23C4649C000749A5 /* TestMKServiceManager.swift */,
+				0A9C465D23C57DC1000749A5 /* TestModuleManager.swift */,
 			);
 			path = ModKitTests;
 			sourceTree = "<group>";
@@ -217,6 +223,7 @@
 				0A1F19AB23BF404000CED36F /* MKContext.swift in Sources */,
 				0A4372A123C2C510005012CB /* MKModuleManager.swift in Sources */,
 				0A9C464723C349FC000749A5 /* MKServiceProtocol.swift in Sources */,
+				0A9C466023C5A962000749A5 /* MKDefines.swift in Sources */,
 				0A9C464923C34A37000749A5 /* MKServiceManager.swift in Sources */,
 				0A1F19AD23BF40BD00CED36F /* MKModuleProtocol.swift in Sources */,
 				0A1F19AF23BF429500CED36F /* MKApplicationDelegate.swift in Sources */,
@@ -228,6 +235,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A9C465C23C4649C000749A5 /* TestMKServiceManager.swift in Sources */,
+				0A9C465E23C57DC1000749A5 /* TestModuleManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
