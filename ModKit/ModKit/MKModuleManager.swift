@@ -18,11 +18,15 @@ public final class MKModuleManager {
     
     // MARK: - Private Attrs
     private var modules: [MKModuleProtocol] = []
+    private var modulesByEvent: [MKModuleEvent.Name: [MKModuleProtocol]] = [:]
 }
 
 // MARK: - Public Register Module
 public extension MKModuleManager {
     func registerModule(_ aClass: MKModuleProtocol.Type) {
+        #if DEBUG
+        
+        #endif
         guard !self.modules.contains(where: { $0.isKind(of: aClass) }) else {
             return
         }
@@ -64,6 +68,7 @@ public extension MKModuleManager {
     func unregisterModule(_ aClass: MKModuleProtocol.Type) {
         if let index = self.modules.firstIndex(where: { $0.isKind(of: aClass) }) {
             let module = self.modules.remove(at: index)
+            unregisterCustomEvent(by: aClass)
             self.dispatchTearDownEvent(for: [module])
         }
     }
@@ -74,6 +79,21 @@ public extension MKModuleManager {
     
     func unregisterModules(classLiteral classes: MKModuleProtocol.Type ...) {
         unregisterModules(classes)
+    }
+}
+
+// MARK: - Easy Event Post
+public extension MKModuleManager {
+    func postEvent(_ event: MKModuleEvent) {
+        DispatchQueue.main.safeAsync {
+            return MKModuleManager.dispatch {
+                $0.moduleDidReceiveCustomEvent(event: event)
+            }
+        }
+    }
+    
+    func postEvent(name: MKModuleEvent.Name, userInfo: [AnyHashable: Any]? = nil) {
+        postEvent(MKModuleEvent(name: name, userInfo: userInfo))
     }
 }
 
@@ -105,14 +125,52 @@ private extension MKModuleManager {
     
     func dispatchSetUpEvent(for modules: [MKModuleProtocol]) {
         dispatchCommonEvent(for: modules) {
-            $0.moduleSetUp(context: MKContext.shared)
+            $0.moduleSetUp()
         }
     }
     
     func dispatchTearDownEvent(for modules: [MKModuleProtocol]) {
         dispatchCommonEvent(for: modules) {
-            $0.moduleTearDown(context: MKContext.shared)
+            $0.moduleTearDown()
         }
+    }
+}
+
+// MARK: - Custom Event
+public extension MKModuleManager {
+    func registerCustomEvent(_ event: MKModuleEvent.Name, forModule aClass: MKModuleProtocol.Type) {
+        let contains: (MKModuleProtocol) -> Bool = { $0.isKind(of: aClass) }
+        guard let module = modules.first(where: contains) else {
+            return
+        }
+        
+        var modules = self.modulesByEvent[event] ?? []
+        if !modules.contains(where: contains) {
+            modules.append(module)
+        }
+        self.modulesByEvent[event] = modules
+    }
+    
+    func unregisterCustomEvent(_ event: MKModuleEvent.Name, forModule aClass: MKModuleProtocol.Type) {
+        guard var modules = self.modulesByEvent[event] else {
+            return
+        }
+        modules.removeAll(where: { $0.isKind(of: aClass) })
+        self.modulesByEvent[event] = modules
+    }
+    
+    func unregisterCustomEvent(_ event: MKModuleEvent.Name) {
+        self.modulesByEvent.removeValue(forKey: event)
+    }
+    
+    func unregisterCustomEvent(by aClass: MKModuleProtocol.Type) {
+        var copied = self.modulesByEvent
+        self.modulesByEvent.forEach { (kv) in
+            var value = kv.value
+            value.removeAll(where: { $0.isKind(of: aClass) })
+            copied[kv.key] = value
+        }
+        self.modulesByEvent = copied
     }
 }
 
@@ -125,12 +183,6 @@ public extension MKModuleManager {
     
     class func dispatch<Result>(_ initialResult: Result, _ nextPartialResult: (Result, MKModuleProtocol) -> Result) -> Result {
         return shared.modules.reduce(initialResult, nextPartialResult)
-    }
-    
-    class func sendCustomEvent(parameters: [AnyHashable: Any]) {
-        return dispatch {
-            $0.moduleHandleCustomEvent(parameters: parameters)
-        }
     }
 }
 

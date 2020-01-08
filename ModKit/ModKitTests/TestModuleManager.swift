@@ -10,13 +10,6 @@ import XCTest
 import ModKit
 
 final class AModule: NSObject, MKModuleProtocol {
-    func moduleSetUp(context: MKContext) {
-        print("SetUp A")
-    }
-    
-    func moduleTearDown(context: MKContext) {
-        print("TearDown A")
-    }
 }
 
 final class BModule: NSObject, MKModuleProtocol {

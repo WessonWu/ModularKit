@@ -57,11 +57,39 @@ extension DispatchQueue {
     }
 }
 
-public struct MKModuleEvent: RawRepresentable, Equatable, Hashable {
-    public typealias RawValue = String
-    public let rawValue: String
+public struct MKModuleEvent {
+    public struct Name: RawRepresentable, Equatable, Hashable {
+        public typealias RawValue = String
+        public let rawValue: String
+        
+        public init(rawValue: String) {
+            self.rawValue = rawValue
+        }
+    }
     
-    public init(rawValue: String) {
-        self.rawValue = rawValue
+    public let name: Name
+    public let userInfo: [AnyHashable: Any]?
+    
+    public init(name: Name, userInfo: [AnyHashable: Any]? = nil) {
+        self.name = name
+        self.userInfo = userInfo
+    }
+}
+
+public struct MKAnyModule: Equatable, Hashable {
+    public let identifier: String
+    public let module: MKModuleProtocol
+    
+    public init(_ module: MKModuleProtocol) {
+        self.identifier = NSStringFromClass(type(of: module))
+        self.module = module
+    }
+    
+    public static func == (lhs: MKAnyModule, rhs: MKAnyModule) -> Bool {
+        return lhs.identifier == rhs.identifier
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(identifier)
     }
 }

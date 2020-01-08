@@ -18,6 +18,7 @@
 		0A9C465C23C4649C000749A5 /* TestMKServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C465B23C4649C000749A5 /* TestMKServiceManager.swift */; };
 		0A9C465E23C57DC1000749A5 /* TestModuleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C465D23C57DC1000749A5 /* TestModuleManager.swift */; };
 		0A9C466023C5A962000749A5 /* MKDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C465F23C5A962000749A5 /* MKDefines.swift */; };
+		0A9C466223C5DADC000749A5 /* TestModuleEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C466123C5DADC000749A5 /* TestModuleEvent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		0A9C465B23C4649C000749A5 /* TestMKServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMKServiceManager.swift; sourceTree = "<group>"; };
 		0A9C465D23C57DC1000749A5 /* TestModuleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestModuleManager.swift; sourceTree = "<group>"; };
 		0A9C465F23C5A962000749A5 /* MKDefines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKDefines.swift; sourceTree = "<group>"; };
+		0A9C466123C5DADC000749A5 /* TestModuleEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestModuleEvent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				0A9C465223C41406000749A5 /* Info.plist */,
 				0A9C465B23C4649C000749A5 /* TestMKServiceManager.swift */,
 				0A9C465D23C57DC1000749A5 /* TestModuleManager.swift */,
+				0A9C466123C5DADC000749A5 /* TestModuleEvent.swift */,
 			);
 			path = ModKitTests;
 			sourceTree = "<group>";
@@ -235,6 +238,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A9C465C23C4649C000749A5 /* TestMKServiceManager.swift in Sources */,
+				0A9C466223C5DADC000749A5 /* TestModuleEvent.swift in Sources */,
 				0A9C465E23C57DC1000749A5 /* TestModuleManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

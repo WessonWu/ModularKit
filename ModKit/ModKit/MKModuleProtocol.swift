@@ -14,8 +14,8 @@ public protocol MKModuleProtocol: NSObject {
     var moduleLevel: MKModuleLevel { get }
     var modulePriority: MKModulePriority { get }
     // MARK: - Common
-    func moduleSetUp(context: MKContext)
-    func moduleTearDown(context: MKContext)
+    func moduleSetUp()
+    func moduleTearDown()
     
     // MARK: - Life Cycle
     func moduleDidFinishLaunching(application: UIApplication, launchOptions: [UIApplication.LaunchOptionsKey : Any]?) -> Bool // 返回值为各个模块进行合并，所有默认返回true  (mod1 && mod2 && ...)
@@ -75,7 +75,7 @@ public protocol MKModuleProtocol: NSObject {
     
     
     // MARK: - CustomAction
-    func moduleHandleCustomEvent(parameters: [AnyHashable: Any])
+    func moduleDidReceiveCustomEvent(event: MKModuleEvent)
 }
 
 
@@ -87,8 +87,8 @@ public extension MKModuleProtocol {
         return .default
     }
     
-    func moduleSetUp(context: MKContext) {}
-    func moduleTearDown(context: MKContext) {}
+    func moduleSetUp() {}
+    func moduleTearDown() {}
     
     func moduleWillFinishLaunching(application: UIApplication, launchOptions: [UIApplication.LaunchOptionsKey : Any]?) -> Bool {
         return true
@@ -152,5 +152,5 @@ public extension MKModuleProtocol {
     
     
     // MARK: - CustomAction
-    func moduleHandleCustomEvent(parameters: [AnyHashable : Any]) {}
+    func moduleDidReceiveCustomEvent(event: MKModuleEvent) {}
 }
