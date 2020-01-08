@@ -39,7 +39,7 @@ func instanceIndex() -> Int {
     count += 1
     return count
 }
-class TestAImpl: TestAProtocol {
+final class TestAImpl: NSObject, TestAProtocol {
     let value: Int = instanceIndex()
     
     func testA() -> String {
@@ -47,7 +47,7 @@ class TestAImpl: TestAProtocol {
     }
 }
 
-class TestBImpl: TestBProtocol {
+final class TestBImpl: NSObject, TestBProtocol {
     let value: Int = instanceIndex()
     
     func testB() -> String {

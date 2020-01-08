@@ -13,6 +13,10 @@ public final class MKServiceManager {
     public typealias ServiceCreator = () -> Any
     public static let shared = MKServiceManager()
     
+    public static let localModuleKey = "module"
+    public static let localServiceKey = "service"
+    public static let localImplKey = "impl"
+    
     private init() {}
     
     /// Service 同步
@@ -25,10 +29,9 @@ public final class MKServiceManager {
 
 
 // MARK: - Service Register & Unregister
-extension MKServiceManager {
-    @inlinable
-    public class func serviceName<T>(of value: T) -> String {
-        return String(describing: value)
+public extension MKServiceManager {
+    class func serviceName<T>(of value: T) -> String {
+        return String(reflecting: value)
     }
     
     // MARK: - Register With Service Name
@@ -36,7 +39,7 @@ extension MKServiceManager {
     /// - Parameters:
     ///   - named: 服务名称
     ///   - creator: 服务构造者
-    public func registerService(named: String, creator: @escaping ServiceCreator) {
+    func registerService(named: String, creator: @escaping ServiceCreator) {
         serviceQueue.async {
             self.creatorsMap[named] = creator
         }
@@ -46,7 +49,7 @@ extension MKServiceManager {
     /// - Parameters:
     ///   - named: 服务名称
     ///   - instance: 服务实例
-    public func registerService(named: String, instance: Any) {
+    func registerService(named: String, instance: Any) {
         serviceQueue.async {
             self.servicesCache[named] = instance
         }
@@ -56,7 +59,7 @@ extension MKServiceManager {
     /// - Parameters:
     ///   - named: 服务名称
     ///   - lazyCreator: 延迟实例化构造者 (如：```registerService(named: "A", lazyCreator: A())```)
-    public func registerService(named: String, lazyCreator: @escaping @autoclosure ServiceCreator) {
+    func registerService(named: String, lazyCreator: @escaping @autoclosure ServiceCreator) {
         registerService(named: named, creator: lazyCreator)
     }
     
@@ -65,7 +68,7 @@ extension MKServiceManager {
     /// - Parameters:
     ///   - service: 服务接口
     ///   - creator: 服务构造者
-    public func registerService<Service>(_ service: Service.Type, creator: @escaping () -> Service) {
+    func registerService<Service>(_ service: Service.Type, creator: @escaping () -> Service) {
         registerService(named: MKServiceManager.serviceName(of: service), creator: creator)
     }
     
@@ -73,7 +76,7 @@ extension MKServiceManager {
     /// - Parameters:
     ///   - service: 服务接口
     ///   - lazyCreator: 延迟实例化构造者 (如：```registerService(named: "A", lazyCreator: A())```)
-    public func registerService<Service>(_ service: Service.Type, lazyCreator: @escaping @autoclosure () -> Service) {
+    func registerService<Service>(_ service: Service.Type, lazyCreator: @escaping @autoclosure () -> Service) {
         registerService(named: MKServiceManager.serviceName(of: service), creator: lazyCreator)
     }
     
@@ -81,7 +84,7 @@ extension MKServiceManager {
     /// - Parameters:
     ///   - service: 服务接口
     ///   - instance: 服务实例
-    public func registerService<Service>(_ service: Service.Type, instance: Service) {
+    func registerService<Service>(_ service: Service.Type, instance: Service) {
         registerService(named: MKServiceManager.serviceName(of: service), instance: instance)
     }
     
@@ -90,7 +93,7 @@ extension MKServiceManager {
     /// 通过服务名称取消注册服务
     /// - Parameter named: 服务名称
     @discardableResult
-    public func unregisterService(named: String) -> Any? {
+    func unregisterService(named: String) -> Any? {
         return serviceQueue.sync {
             self.creatorsMap.removeValue(forKey: named)
             return self.servicesCache.removeValue(forKey: named)
@@ -100,33 +103,63 @@ extension MKServiceManager {
     /// 通过服务接口取消注册服务
     /// - Parameter service: 服务接口
     @discardableResult
-    public func unregisterService<Service>(_ service: Service) -> Service? {
+    func unregisterService<Service>(_ service: Service) -> Service? {
         return unregisterService(named: MKServiceManager.serviceName(of: service)) as? Service
     }
 }
 
 // MARK: - Register Batch Services
-extension MKServiceManager {
-    public typealias BatchServiceMap = [String: ServiceCreator]
-    public typealias ServiceEntry = BatchServiceMap.Element
-    public func registerService(_ services: BatchServiceMap) {
+public extension MKServiceManager {
+    typealias BatchServiceMap = [String: ServiceCreator]
+    typealias ServiceEntry = BatchServiceMap.Element
+    func registerService(_ services: BatchServiceMap) {
         serviceQueue.async {
             self.creatorsMap.merge(services, uniquingKeysWith: { _, v2 in v2 })
         }
     }
     
-    public func registerService(entryLiteral entries: ServiceEntry ...) {
+    func registerService(entryLiteral entries: ServiceEntry ...) {
         return registerService(BatchServiceMap(entries, uniquingKeysWith: {_, v2 in v2}))
+    }
+    
+    func registerLocalServices() {
+        guard let fileURL = MKContext.shared.serviceConfig.fileURL,
+            let serviceList = NSArray(contentsOf: fileURL) else {
+            return
+        }
+        
+        let entries = serviceList.compactMap { (value) -> ServiceEntry? in
+            guard let item = value as? [String: String],
+                let moduleName = item[MKServiceManager.localModuleKey],
+                let serviceName = item[MKServiceManager.localServiceKey],
+                let implName = item[MKServiceManager.localImplKey] else {
+                return nil
+            }
+            
+            let fullImplName = moduleName + "." + implName
+            guard let implClass = NSClassFromString(fullImplName) as? MKServiceProtocol.Type else {
+                return nil
+            }
+            
+            let fullServiceName = moduleName + "." + serviceName
+            return (fullServiceName, { implClass.init() })
+        }
+        
+        guard !entries.isEmpty else {
+            return
+        }
+        
+        registerService(BatchServiceMap(entries, uniquingKeysWith: {_, v2 in v2}))
     }
 }
 
 // MARK: - Service Create
-extension MKServiceManager {
+public extension MKServiceManager {
     /// 根据服务名称创建服务（如果缓存中已有服务实例，则不需要创建）
     /// - Parameters:
     ///   - named: 服务名称
     ///   - shouldCache: 是否需要缓存
-    public func createService(named: String, shouldCache: Bool = true) -> Any? {
+    func createService(named: String, shouldCache: Bool = true) -> Any? {
         // 检查是否有缓存
         if let service = serviceQueue.sync(execute: { servicesCache[named] }) {
             return service
@@ -149,16 +182,16 @@ extension MKServiceManager {
     /// - Parameters:
     ///   - service: 服务接口
     ///   - shouldCache: 是否需要缓存
-    public func createService<Service>(_ service: Service.Type, shouldCache: Bool = true) -> Service? {
+    func createService<Service>(_ service: Service.Type, shouldCache: Bool = true) -> Service? {
         return createService(named: MKServiceManager.serviceName(of: service), shouldCache: shouldCache) as? Service
     }
 }
 
 // MARK: - Service Fetch
-extension MKServiceManager {
+public extension MKServiceManager {
     /// 通过服务名称获取服务
     /// - Parameter named: 服务名称
-    public func getService(named: String) -> Any? {
+    func getService(named: String) -> Any? {
         return serviceQueue.sync {
             return self.servicesCache[named]
         }
@@ -166,29 +199,29 @@ extension MKServiceManager {
     
     /// 通过服务接口获取服务
     /// - Parameter service: 服务接口
-    public func getService<Service>(_ service: Service.Type) -> Service? {
+    func getService<Service>(_ service: Service.Type) -> Service? {
         return getService(named: MKServiceManager.serviceName(of: service)) as? Service
     }
 }
 
 
 // MARK: - Service Clean Cache
-extension MKServiceManager {
-    public func cleanAllServiceCache() {
+public extension MKServiceManager {
+    func cleanAllServiceCache() {
         serviceQueue.async {
             self.servicesCache.removeAll()
         }
     }
     
     @discardableResult
-    public func cleanServiceCache(named: String) -> Any? {
+    func cleanServiceCache(named: String) -> Any? {
         return serviceQueue.sync {
             return self.servicesCache.removeValue(forKey: named)
         }
     }
     
     @discardableResult
-    public func cleanServiceCache<Service>(by service: Service.Type) -> Service? {
+    func cleanServiceCache<Service>(by service: Service.Type) -> Service? {
         return cleanServiceCache(named: MKServiceManager.serviceName(of: service)) as? Service
     }
 }
