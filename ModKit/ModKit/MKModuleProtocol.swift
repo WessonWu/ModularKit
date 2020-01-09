@@ -90,9 +90,6 @@ public extension MKModuleProtocol {
     func moduleSetUp() {}
     func moduleTearDown() {}
     
-    func moduleWillFinishLaunching(application: UIApplication, launchOptions: [UIApplication.LaunchOptionsKey : Any]?) -> Bool {
-        return true
-    }
     func moduleDidFinishLaunching(application: UIApplication, launchOptions: [UIApplication.LaunchOptionsKey : Any]?) -> Bool {
         return true
     }

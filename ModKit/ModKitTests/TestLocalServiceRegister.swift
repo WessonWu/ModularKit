@@ -7,14 +7,18 @@
 //
 
 import XCTest
+import Foundation
 import ModKit
 
+@objc
 protocol TestLocalServiceProtocol: MKServiceProtocol {
-    
+    func test()
 }
 
-class TestLocalServiceImpl: TestLocalServiceProtocol {
-    required init() {}
+final class TestLocalServiceImpl: NSObject, TestLocalServiceProtocol {
+    func test() {
+        print("Test Local Service Impl")
+    }
 }
 
 class TestLocalServiceRegister: XCTestCase {

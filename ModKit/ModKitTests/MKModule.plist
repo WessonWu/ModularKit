@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>moduleList</key>
+	<array>
+		<dict>
+			<key>moduleName</key>
+			<string>ModKitTests</string>
+			<key>moduleClass</key>
+			<string>TestLocalModule</string>
+			<key>moduleLevel</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>moduleName</key>
+			<string>ModKitTests</string>
+			<key>moduleClass</key>
+			<string>TestLocalModule2</string>
+			<key>moduleLevel</key>
+			<integer>1</integer>
+			<key>modulePriority</key>
+			<integer>4</integer>
+		</dict>
+	</array>
+</dict>
+</plist>

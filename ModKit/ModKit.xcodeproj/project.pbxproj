@@ -19,6 +19,9 @@
 		0A9C465E23C57DC1000749A5 /* TestModuleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C465D23C57DC1000749A5 /* TestModuleManager.swift */; };
 		0A9C466023C5A962000749A5 /* MKDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C465F23C5A962000749A5 /* MKDefines.swift */; };
 		0A9C466223C5DADC000749A5 /* TestModuleEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C466123C5DADC000749A5 /* TestModuleEvent.swift */; };
+		0A9C466423C6CB73000749A5 /* MKModuleRegisterInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C466323C6CB73000749A5 /* MKModuleRegisterInfo.swift */; };
+		0A9C466623C6E16B000749A5 /* TestLocalModuleRegister.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C466523C6E16B000749A5 /* TestLocalModuleRegister.swift */; };
+		0A9C466823C6E183000749A5 /* MKModule.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A9C466723C6E183000749A5 /* MKModule.plist */; };
 		0AFF2A4623C61923007A3DB1 /* MKConfigSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFF2A4523C61923007A3DB1 /* MKConfigSource.swift */; };
 		0AFF2A4823C62167007A3DB1 /* MKService.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AFF2A4723C62167007A3DB1 /* MKService.plist */; };
 		0AFF2A4A23C62227007A3DB1 /* TestLocalServiceRegister.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFF2A4923C62227007A3DB1 /* TestLocalServiceRegister.swift */; };
@@ -50,6 +53,9 @@
 		0A9C465D23C57DC1000749A5 /* TestModuleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestModuleManager.swift; sourceTree = "<group>"; };
 		0A9C465F23C5A962000749A5 /* MKDefines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKDefines.swift; sourceTree = "<group>"; };
 		0A9C466123C5DADC000749A5 /* TestModuleEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestModuleEvent.swift; sourceTree = "<group>"; };
+		0A9C466323C6CB73000749A5 /* MKModuleRegisterInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKModuleRegisterInfo.swift; sourceTree = "<group>"; };
+		0A9C466523C6E16B000749A5 /* TestLocalModuleRegister.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLocalModuleRegister.swift; sourceTree = "<group>"; };
+		0A9C466723C6E183000749A5 /* MKModule.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = MKModule.plist; sourceTree = "<group>"; };
 		0AFF2A4523C61923007A3DB1 /* MKConfigSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKConfigSource.swift; sourceTree = "<group>"; };
 		0AFF2A4723C62167007A3DB1 /* MKService.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = MKService.plist; sourceTree = "<group>"; };
 		0AFF2A4923C62227007A3DB1 /* TestLocalServiceRegister.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLocalServiceRegister.swift; sourceTree = "<group>"; };
@@ -105,6 +111,7 @@
 				0A9C464823C34A37000749A5 /* MKServiceManager.swift */,
 				0A9C465F23C5A962000749A5 /* MKDefines.swift */,
 				0AFF2A4523C61923007A3DB1 /* MKConfigSource.swift */,
+				0A9C466323C6CB73000749A5 /* MKModuleRegisterInfo.swift */,
 			);
 			path = ModKit;
 			sourceTree = "<group>";
@@ -118,6 +125,8 @@
 				0A9C466123C5DADC000749A5 /* TestModuleEvent.swift */,
 				0AFF2A4723C62167007A3DB1 /* MKService.plist */,
 				0AFF2A4923C62227007A3DB1 /* TestLocalServiceRegister.swift */,
+				0A9C466523C6E16B000749A5 /* TestLocalModuleRegister.swift */,
+				0A9C466723C6E183000749A5 /* MKModule.plist */,
 			);
 			path = ModKitTests;
 			sourceTree = "<group>";
@@ -222,6 +231,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A9C466823C6E183000749A5 /* MKModule.plist in Resources */,
 				0AFF2A4823C62167007A3DB1 /* MKService.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -235,6 +245,7 @@
 			files = (
 				0A1F19AB23BF404000CED36F /* MKContext.swift in Sources */,
 				0A4372A123C2C510005012CB /* MKModuleManager.swift in Sources */,
+				0A9C466423C6CB73000749A5 /* MKModuleRegisterInfo.swift in Sources */,
 				0A9C464723C349FC000749A5 /* MKServiceProtocol.swift in Sources */,
 				0A9C466023C5A962000749A5 /* MKDefines.swift in Sources */,
 				0A9C464923C34A37000749A5 /* MKServiceManager.swift in Sources */,
@@ -251,6 +262,7 @@
 				0A9C465C23C4649C000749A5 /* TestMKServiceManager.swift in Sources */,
 				0A9C466223C5DADC000749A5 /* TestModuleEvent.swift in Sources */,
 				0AFF2A4A23C62227007A3DB1 /* TestLocalServiceRegister.swift in Sources */,
+				0A9C466623C6E16B000749A5 /* TestLocalModuleRegister.swift in Sources */,
 				0A9C465E23C57DC1000749A5 /* TestModuleManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

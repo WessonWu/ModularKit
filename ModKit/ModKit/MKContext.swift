@@ -16,6 +16,7 @@ public final class MKContext {
     // MARK: - Variables
     public internal(set) var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     
+    public var moduleConfig: MKConfigSource = .none
     public var serviceConfig: MKConfigSource = .none
     
     // MARK: - Init

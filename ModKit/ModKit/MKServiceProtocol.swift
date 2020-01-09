@@ -8,6 +8,7 @@
 
 import Foundation
 
-public protocol MKServiceProtocol {
+@objc
+public protocol MKServiceProtocol: NSObjectProtocol {
     init()
 }
