@@ -32,8 +32,8 @@ class TestLocalServiceRegister: XCTestCase {
         
         let bundle = Bundle(for: TestLocalServiceRegister.self)
         if let url = bundle.url(forResource: "MKService", withExtension: "plist") {
-            MKContext.shared.serviceConfig = .fileURL(url)
-            MKServiceManager.shared.registerLocalServices()
+            manager.config = .fileURL(url)
+            manager.registerLocalServices()
         }
     }
     

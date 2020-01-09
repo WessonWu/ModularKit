@@ -15,9 +15,9 @@ final class TestLocalModule: NSObject, MKModuleProtocol {
     }
 }
 
-final class TestLocalModule2: NSObject, MKModuleProtocol {
-    
-}
+final class TestLocalModule1: NSObject, MKModuleProtocol {}
+final class TestLocalModule2: NSObject, MKModuleProtocol {}
+final class TestLocalModule3: NSObject, MKModuleProtocol {}
 
 class TestLocalModuleRegister: XCTestCase {
     
@@ -29,7 +29,7 @@ class TestLocalModuleRegister: XCTestCase {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         let bundle = Bundle(for: TestLocalModuleRegister.self)
         if let url = bundle.url(forResource: "MKModule", withExtension: "plist") {
-            MKContext.shared.moduleConfig = .fileURL(url)
+            manager.config = .fileURL(url)
             manager.registerLocalModules()
         }
     }
@@ -42,7 +42,7 @@ class TestLocalModuleRegister: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
         
-        XCTAssert(manager.numberOfModules == 2)
+        XCTAssert(manager.numberOfModules == 4)
     }
 
     func testPerformanceExample() {

@@ -17,6 +17,8 @@ public final class MKServiceManager {
     public static let localServiceKey = "service"
     public static let localImplKey = "impl"
     
+    public var config: MKConfigSource = .none
+    
     private init() {}
     
     /// Service 同步
@@ -123,7 +125,7 @@ public extension MKServiceManager {
     }
     
     func registerLocalServices() {
-        guard let fileURL = MKContext.shared.serviceConfig.fileURL,
+        guard let fileURL = self.config.fileURL,
             let serviceList = NSArray(contentsOf: fileURL) else {
             return
         }

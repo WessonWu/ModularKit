@@ -11,6 +11,8 @@
 			<string>TestLocalModule</string>
 			<key>moduleLevel</key>
 			<integer>1</integer>
+			<key>modulePriority</key>
+			<integer>4</integer>
 		</dict>
 		<dict>
 			<key>moduleName</key>
@@ -18,9 +20,29 @@
 			<key>moduleClass</key>
 			<string>TestLocalModule2</string>
 			<key>moduleLevel</key>
+			<integer>0</integer>
+			<key>modulePriority</key>
+			<integer>5</integer>
+		</dict>
+		<dict>
+			<key>moduleName</key>
+			<string>ModKitTests</string>
+			<key>moduleClass</key>
+			<string>TestLocalModule</string>
+			<key>moduleLevel</key>
+			<integer>0</integer>
+			<key>modulePriority</key>
+			<integer>10</integer>
+		</dict>
+		<dict>
+			<key>moduleName</key>
+			<string>ModKitTests</string>
+			<key>moduleClass</key>
+			<string>TestLocalModule3</string>
+			<key>moduleLevel</key>
 			<integer>1</integer>
 			<key>modulePriority</key>
-			<integer>4</integer>
+			<integer>100</integer>
 		</dict>
 	</array>
 </dict>

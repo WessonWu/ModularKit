@@ -18,12 +18,14 @@ public final class MKModuleManager {
     public static let localModuleLevelKey = "moduleLevel"
     public static let localModulePriorityKey = "modulePriority"
     
+    public var config: MKConfigSource = .none
+    
     // MARK: - Init
     private init() {}
     
     // MARK: - Private Attrs
-    private var modules: [MKModuleRegisterInfo] = []
-    private var modulesByEvent: [MKModuleEvent.Name: [MKModuleRegisterInfo]] = [:]
+    private var modules: [MKModuleInfo] = []
+    private var modulesByEvent: [MKModuleEvent.Name: [MKModuleInfo]] = [:]
 }
 
 // MARK: - Public Register Module
@@ -33,8 +35,8 @@ public extension MKModuleManager {
             return
         }
 
-        let module = MKModuleRegisterInfo(module: aClass.init())
-        registerModuleInfos([module])
+        let module = MKModuleInfo(module: aClass.init())
+        registerModules([module])
     }
     
     func registerModules(_ classes: [MKModuleProtocol.Type]) {
@@ -51,9 +53,9 @@ public extension MKModuleManager {
         guard !uniqueClasses.isEmpty else {
             return
         }
-        let modules = uniqueClasses.map { MKModuleRegisterInfo(module: $0.init()) }
+        let modules = uniqueClasses.map { MKModuleInfo(module: $0.init()) }
         
-        registerModuleInfos(modules)
+        registerModules(modules)
     }
     
     func registerModules(classLiteral classes: MKModuleProtocol.Type ...) {
@@ -61,13 +63,13 @@ public extension MKModuleManager {
     }
     
     func registerLocalModules() {
-        guard let fileURL = MKContext.shared.moduleConfig.fileURL,
+        guard let fileURL = self.config.fileURL,
             let moduleList = NSDictionary(contentsOf: fileURL),
             let modulesArray = moduleList[MKModuleManager.localModuleListKey] as? [[String: Any]] else {
             return
         }
 
-        let modules = modulesArray.compactMap { (item) -> MKModuleRegisterInfo? in
+        let modules = modulesArray.compactMap { (item) -> MKModuleInfo? in
             guard let moduleName = item[MKModuleManager.localModuleNameKey] as? String,
                 let className = item[MKModuleManager.localModuleClassKey] as? String else {
                 return nil
@@ -88,20 +90,14 @@ public extension MKModuleManager {
                 priority = MKModulePriority(rawValue: rawValue)
             }
 
-            return MKModuleRegisterInfo(module: moduleClass.init(), level: level, priority: priority)
+            return MKModuleInfo(module: moduleClass.init(), level: level, priority: priority)
         }
 
         guard !modules.isEmpty else {
             return
         }
         
-        registerModuleInfos(modules)
-    }
-    
-    private func registerModuleInfos(_ modules: [MKModuleRegisterInfo]) {
-        self.dispatchSetUpEvent(for: modules)
-        self.modules.append(contentsOf: modules)
-        self.sortAllModules()
+        registerModules(modules)
     }
     
     func unregisterModule(_ aClass: MKModuleProtocol.Type) {
@@ -133,45 +129,6 @@ public extension MKModuleManager {
     
     func postEvent(name: MKModuleEvent.Name, userInfo: [AnyHashable: Any]? = nil) {
         postEvent(MKModuleEvent(name: name, userInfo: userInfo))
-    }
-}
-
-// MARK: - Sort By Level & Priority
-private extension MKModuleManager {
-    func sortModuleComparator(_ m1: MKModuleRegisterInfo, _ m2: MKModuleRegisterInfo) -> Bool {
-        let level1 = m1.level
-        let level2 = m2.level
-        let priority1 = m1.priority
-        let priority2 = m2.priority
-        
-        if level1 != level2 {
-            return level1 > level2
-        } else {
-            return  priority1 < priority2
-        }
-    }
-    
-    func sortAllModules() {
-        modules.sort(by: sortModuleComparator)
-    }
-}
-
-// MARK: - Common Events Dispatch
-private extension MKModuleManager {
-    func dispatchCommonEvent(for modules: [MKModuleRegisterInfo], event: (MKModuleRegisterInfo) -> Void) {
-        modules.sorted(by: sortModuleComparator).forEach(event)
-    }
-    
-    func dispatchSetUpEvent(for modules: [MKModuleRegisterInfo]) {
-        dispatchCommonEvent(for: modules) {
-            $0.module.moduleSetUp()
-        }
-    }
-    
-    func dispatchTearDownEvent(for modules: [MKModuleRegisterInfo]) {
-        dispatchCommonEvent(for: modules) {
-            $0.module.moduleTearDown()
-        }
     }
 }
 
@@ -221,6 +178,35 @@ public extension MKModuleManager {
     
     class func dispatch<Result>(_ initialResult: Result, _ nextPartialResult: (Result, MKModuleProtocol) -> Result) -> Result {
         return shared.modules.map { $0.module }.reduce(initialResult, nextPartialResult)
+    }
+}
+
+// MARK: - Private
+private extension MKModuleManager {
+    /// Register
+    func registerModules(_ modules: [MKModuleInfo]) {
+        self.dispatchSetUpEvent(for: modules)
+        self.modules.append(contentsOf: modules)
+        self.modules.sort()
+    }
+}
+
+// MARK: - Common Events Dispatch
+private extension MKModuleManager {
+    func dispatchCommonEvent(for modules: [MKModuleInfo], event: (MKModuleInfo) -> Void) {
+        modules.sorted().forEach(event)
+    }
+    
+    func dispatchSetUpEvent(for modules: [MKModuleInfo]) {
+        dispatchCommonEvent(for: modules) {
+            $0.module.moduleSetUp()
+        }
+    }
+    
+    func dispatchTearDownEvent(for modules: [MKModuleInfo]) {
+        dispatchCommonEvent(for: modules) {
+            $0.module.moduleTearDown()
+        }
     }
 }
 
