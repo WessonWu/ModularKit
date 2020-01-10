@@ -1,6 +1,6 @@
 import UIKit
 
-public final class MKWatchDog {
+public final class WatchDog {
     private let pingThread: PingThread
     
     public init(threshold: TimeInterval = 0.5, strictMode: Bool = true) {

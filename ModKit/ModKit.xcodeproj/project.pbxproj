@@ -8,21 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		0A1F196D23BF3F1E00CED36F /* ModKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A1F196B23BF3F1E00CED36F /* ModKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0A1F19AD23BF40BD00CED36F /* MKModuleProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1F19AC23BF40BD00CED36F /* MKModuleProtocol.swift */; };
-		0A1F19AF23BF429500CED36F /* MKApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1F19AE23BF429500CED36F /* MKApplicationDelegate.swift */; };
-		0A4372A123C2C510005012CB /* MKModuleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4372A023C2C510005012CB /* MKModuleManager.swift */; };
-		0A9C464723C349FC000749A5 /* MKServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C464623C349FC000749A5 /* MKServiceProtocol.swift */; };
-		0A9C464923C34A37000749A5 /* MKServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C464823C34A37000749A5 /* MKServiceManager.swift */; };
+		0A1F19AD23BF40BD00CED36F /* ModuleProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1F19AC23BF40BD00CED36F /* ModuleProtocol.swift */; };
+		0A1F19AF23BF429500CED36F /* ApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1F19AE23BF429500CED36F /* ApplicationDelegate.swift */; };
+		0A4372A123C2C510005012CB /* ModuleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4372A023C2C510005012CB /* ModuleManager.swift */; };
+		0A5BAD7623C80A7A0051DCC4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5BAD7523C80A7A0051DCC4 /* Extensions.swift */; };
+		0A9C464723C349FC000749A5 /* ServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C464623C349FC000749A5 /* ServiceProtocol.swift */; };
+		0A9C464923C34A37000749A5 /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C464823C34A37000749A5 /* ServiceManager.swift */; };
 		0A9C465323C41406000749A5 /* ModKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A1F196823BF3F1E00CED36F /* ModKit.framework */; };
 		0A9C465C23C4649C000749A5 /* TestMKServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C465B23C4649C000749A5 /* TestMKServiceManager.swift */; };
 		0A9C465E23C57DC1000749A5 /* TestModuleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C465D23C57DC1000749A5 /* TestModuleManager.swift */; };
-		0A9C466023C5A962000749A5 /* MKDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C465F23C5A962000749A5 /* MKDefines.swift */; };
+		0A9C466023C5A962000749A5 /* ModuleDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C465F23C5A962000749A5 /* ModuleDefines.swift */; };
 		0A9C466223C5DADC000749A5 /* TestModuleEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C466123C5DADC000749A5 /* TestModuleEvent.swift */; };
-		0A9C466423C6CB73000749A5 /* MKModuleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C466323C6CB73000749A5 /* MKModuleInfo.swift */; };
+		0A9C466423C6CB73000749A5 /* ModuleManager+Internal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C466323C6CB73000749A5 /* ModuleManager+Internal.swift */; };
 		0A9C466623C6E16B000749A5 /* TestLocalModuleRegister.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C466523C6E16B000749A5 /* TestLocalModuleRegister.swift */; };
 		0A9C466823C6E183000749A5 /* MKModule.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A9C466723C6E183000749A5 /* MKModule.plist */; };
-		0A9C466A23C6FE51000749A5 /* MKWatchDog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C466923C6FE51000749A5 /* MKWatchDog.swift */; };
-		0AFF2A4623C61923007A3DB1 /* MKConfigSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFF2A4523C61923007A3DB1 /* MKConfigSource.swift */; };
+		0A9C466A23C6FE51000749A5 /* WatchDog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C466923C6FE51000749A5 /* WatchDog.swift */; };
+		0AFF2A4623C61923007A3DB1 /* ConfigSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFF2A4523C61923007A3DB1 /* ConfigSource.swift */; };
 		0AFF2A4823C62167007A3DB1 /* MKService.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AFF2A4723C62167007A3DB1 /* MKService.plist */; };
 		0AFF2A4A23C62227007A3DB1 /* TestLocalServiceRegister.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFF2A4923C62227007A3DB1 /* TestLocalServiceRegister.swift */; };
 /* End PBXBuildFile section */
@@ -41,22 +42,23 @@
 		0A1F196823BF3F1E00CED36F /* ModKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ModKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A1F196B23BF3F1E00CED36F /* ModKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModKit.h; sourceTree = "<group>"; };
 		0A1F196C23BF3F1E00CED36F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0A1F19AC23BF40BD00CED36F /* MKModuleProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKModuleProtocol.swift; sourceTree = "<group>"; };
-		0A1F19AE23BF429500CED36F /* MKApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKApplicationDelegate.swift; sourceTree = "<group>"; };
-		0A4372A023C2C510005012CB /* MKModuleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKModuleManager.swift; sourceTree = "<group>"; };
-		0A9C464623C349FC000749A5 /* MKServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKServiceProtocol.swift; sourceTree = "<group>"; };
-		0A9C464823C34A37000749A5 /* MKServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKServiceManager.swift; sourceTree = "<group>"; };
+		0A1F19AC23BF40BD00CED36F /* ModuleProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleProtocol.swift; sourceTree = "<group>"; };
+		0A1F19AE23BF429500CED36F /* ApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationDelegate.swift; sourceTree = "<group>"; };
+		0A4372A023C2C510005012CB /* ModuleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleManager.swift; sourceTree = "<group>"; };
+		0A5BAD7523C80A7A0051DCC4 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		0A9C464623C349FC000749A5 /* ServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocol.swift; sourceTree = "<group>"; };
+		0A9C464823C34A37000749A5 /* ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
 		0A9C464E23C41406000749A5 /* ModKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ModKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A9C465223C41406000749A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A9C465B23C4649C000749A5 /* TestMKServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMKServiceManager.swift; sourceTree = "<group>"; };
 		0A9C465D23C57DC1000749A5 /* TestModuleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestModuleManager.swift; sourceTree = "<group>"; };
-		0A9C465F23C5A962000749A5 /* MKDefines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKDefines.swift; sourceTree = "<group>"; };
+		0A9C465F23C5A962000749A5 /* ModuleDefines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleDefines.swift; sourceTree = "<group>"; };
 		0A9C466123C5DADC000749A5 /* TestModuleEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestModuleEvent.swift; sourceTree = "<group>"; };
-		0A9C466323C6CB73000749A5 /* MKModuleInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKModuleInfo.swift; sourceTree = "<group>"; };
+		0A9C466323C6CB73000749A5 /* ModuleManager+Internal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ModuleManager+Internal.swift"; sourceTree = "<group>"; };
 		0A9C466523C6E16B000749A5 /* TestLocalModuleRegister.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLocalModuleRegister.swift; sourceTree = "<group>"; };
 		0A9C466723C6E183000749A5 /* MKModule.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = MKModule.plist; sourceTree = "<group>"; };
-		0A9C466923C6FE51000749A5 /* MKWatchDog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKWatchDog.swift; sourceTree = "<group>"; };
-		0AFF2A4523C61923007A3DB1 /* MKConfigSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKConfigSource.swift; sourceTree = "<group>"; };
+		0A9C466923C6FE51000749A5 /* WatchDog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchDog.swift; sourceTree = "<group>"; };
+		0AFF2A4523C61923007A3DB1 /* ConfigSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigSource.swift; sourceTree = "<group>"; };
 		0AFF2A4723C62167007A3DB1 /* MKService.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = MKService.plist; sourceTree = "<group>"; };
 		0AFF2A4923C62227007A3DB1 /* TestLocalServiceRegister.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLocalServiceRegister.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -101,19 +103,52 @@
 		0A1F196A23BF3F1E00CED36F /* ModKit */ = {
 			isa = PBXGroup;
 			children = (
+				0A5BAD7423C80A090051DCC4 /* Common */,
+				0A5BAD7323C8099B0051DCC4 /* Utils */,
+				0A5BAD7223C8091D0051DCC4 /* Service */,
+				0A5BAD7123C808E50051DCC4 /* Module */,
 				0A1F196B23BF3F1E00CED36F /* ModKit.h */,
 				0A1F196C23BF3F1E00CED36F /* Info.plist */,
-				0A1F19AC23BF40BD00CED36F /* MKModuleProtocol.swift */,
-				0A1F19AE23BF429500CED36F /* MKApplicationDelegate.swift */,
-				0A4372A023C2C510005012CB /* MKModuleManager.swift */,
-				0A9C464623C349FC000749A5 /* MKServiceProtocol.swift */,
-				0A9C464823C34A37000749A5 /* MKServiceManager.swift */,
-				0A9C465F23C5A962000749A5 /* MKDefines.swift */,
-				0AFF2A4523C61923007A3DB1 /* MKConfigSource.swift */,
-				0A9C466323C6CB73000749A5 /* MKModuleInfo.swift */,
-				0A9C466923C6FE51000749A5 /* MKWatchDog.swift */,
 			);
 			path = ModKit;
+			sourceTree = "<group>";
+		};
+		0A5BAD7123C808E50051DCC4 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				0A9C465F23C5A962000749A5 /* ModuleDefines.swift */,
+				0A9C466323C6CB73000749A5 /* ModuleManager+Internal.swift */,
+				0A1F19AC23BF40BD00CED36F /* ModuleProtocol.swift */,
+				0A4372A023C2C510005012CB /* ModuleManager.swift */,
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
+		0A5BAD7223C8091D0051DCC4 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				0A9C464623C349FC000749A5 /* ServiceProtocol.swift */,
+				0A9C464823C34A37000749A5 /* ServiceManager.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		0A5BAD7323C8099B0051DCC4 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				0A9C466923C6FE51000749A5 /* WatchDog.swift */,
+				0A5BAD7523C80A7A0051DCC4 /* Extensions.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		0A5BAD7423C80A090051DCC4 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				0A1F19AE23BF429500CED36F /* ApplicationDelegate.swift */,
+				0AFF2A4523C61923007A3DB1 /* ConfigSource.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		0A9C464F23C41406000749A5 /* ModKitTests */ = {
@@ -243,15 +278,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A4372A123C2C510005012CB /* MKModuleManager.swift in Sources */,
-				0A9C466423C6CB73000749A5 /* MKModuleInfo.swift in Sources */,
-				0A9C464723C349FC000749A5 /* MKServiceProtocol.swift in Sources */,
-				0A9C466023C5A962000749A5 /* MKDefines.swift in Sources */,
-				0A9C464923C34A37000749A5 /* MKServiceManager.swift in Sources */,
-				0A1F19AD23BF40BD00CED36F /* MKModuleProtocol.swift in Sources */,
-				0AFF2A4623C61923007A3DB1 /* MKConfigSource.swift in Sources */,
-				0A9C466A23C6FE51000749A5 /* MKWatchDog.swift in Sources */,
-				0A1F19AF23BF429500CED36F /* MKApplicationDelegate.swift in Sources */,
+				0A4372A123C2C510005012CB /* ModuleManager.swift in Sources */,
+				0A9C466423C6CB73000749A5 /* ModuleManager+Internal.swift in Sources */,
+				0A9C464723C349FC000749A5 /* ServiceProtocol.swift in Sources */,
+				0A9C466023C5A962000749A5 /* ModuleDefines.swift in Sources */,
+				0A9C464923C34A37000749A5 /* ServiceManager.swift in Sources */,
+				0A5BAD7623C80A7A0051DCC4 /* Extensions.swift in Sources */,
+				0A1F19AD23BF40BD00CED36F /* ModuleProtocol.swift in Sources */,
+				0AFF2A4623C61923007A3DB1 /* ConfigSource.swift in Sources */,
+				0A9C466A23C6FE51000749A5 /* WatchDog.swift in Sources */,
+				0A1F19AF23BF429500CED36F /* ApplicationDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

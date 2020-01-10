@@ -1,5 +1,5 @@
 //
-//  MKConfigSource.swift
+//  ConfigSource.swift
 //  ModKit
 //
 //  Created by wuweixin on 2020/1/8.
@@ -8,13 +8,13 @@
 
 import Foundation
 
-public enum MKConfigSource {
+public enum ConfigSource {
     case none
     case fileName(String)
     case fileURL(URL)
 }
 
-public extension MKConfigSource {
+public extension ConfigSource {
     var fileURL: URL? {
         switch self {
         case .none:

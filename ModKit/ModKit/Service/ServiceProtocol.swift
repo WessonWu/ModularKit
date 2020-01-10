@@ -1,5 +1,5 @@
 //
-//  MKServiceProtocol.swift
+//  ServiceProtocol.swift
 //  ModKit
 //
 //  Created by wuweixin on 2020/1/6.
@@ -9,6 +9,6 @@
 import Foundation
 
 @objc
-public protocol MKServiceProtocol: NSObjectProtocol {
+public protocol ServiceProtocol: NSObjectProtocol {
     init()
 }

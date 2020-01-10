@@ -1,5 +1,5 @@
 //
-//  MKServiceManager.swift
+//  ServiceManager.swift
 //  ModKit
 //
 //  Created by wuweixin on 2020/1/6.
@@ -9,15 +9,15 @@
 import Foundation
 
 
-public final class MKServiceManager {
+public final class ServiceManager {
     public typealias ServiceCreator = () -> Any
-    public static let shared = MKServiceManager()
+    public static let shared = ServiceManager()
     
     public static let localModuleKey = "module"
     public static let localServiceKey = "service"
     public static let localImplKey = "impl"
     
-    public var config: MKConfigSource = .none
+    public var config: ConfigSource = .none
     
     private init() {}
     
@@ -31,7 +31,7 @@ public final class MKServiceManager {
 
 
 // MARK: - Service Register & Unregister
-public extension MKServiceManager {
+public extension ServiceManager {
     class func serviceName<T>(of value: T) -> String {
         return String(reflecting: value)
     }
@@ -71,7 +71,7 @@ public extension MKServiceManager {
     ///   - service: 服务接口
     ///   - creator: 服务构造者
     func registerService<Service>(_ service: Service.Type, creator: @escaping () -> Service) {
-        registerService(named: MKServiceManager.serviceName(of: service), creator: creator)
+        registerService(named: ServiceManager.serviceName(of: service), creator: creator)
     }
     
     /// 通过服务接口注册ServiceCreator
@@ -79,7 +79,7 @@ public extension MKServiceManager {
     ///   - service: 服务接口
     ///   - lazyCreator: 延迟实例化构造者 (如：```registerService(named: "A", lazyCreator: A())```)
     func registerService<Service>(_ service: Service.Type, lazyCreator: @escaping @autoclosure () -> Service) {
-        registerService(named: MKServiceManager.serviceName(of: service), creator: lazyCreator)
+        registerService(named: ServiceManager.serviceName(of: service), creator: lazyCreator)
     }
     
     /// 通过服务接口注册一个服务实例 (存在缓存中)
@@ -87,7 +87,7 @@ public extension MKServiceManager {
     ///   - service: 服务接口
     ///   - instance: 服务实例
     func registerService<Service>(_ service: Service.Type, instance: Service) {
-        registerService(named: MKServiceManager.serviceName(of: service), instance: instance)
+        registerService(named: ServiceManager.serviceName(of: service), instance: instance)
     }
     
     // MARK: - Unregister Service
@@ -106,12 +106,12 @@ public extension MKServiceManager {
     /// - Parameter service: 服务接口
     @discardableResult
     func unregisterService<Service>(_ service: Service) -> Service? {
-        return unregisterService(named: MKServiceManager.serviceName(of: service)) as? Service
+        return unregisterService(named: ServiceManager.serviceName(of: service)) as? Service
     }
 }
 
 // MARK: - Register Batch Services
-public extension MKServiceManager {
+public extension ServiceManager {
     typealias BatchServiceMap = [String: ServiceCreator]
     typealias ServiceEntry = BatchServiceMap.Element
     func registerService(_ services: BatchServiceMap) {
@@ -132,14 +132,14 @@ public extension MKServiceManager {
         
         let entries = serviceList.compactMap { (value) -> ServiceEntry? in
             guard let item = value as? [String: String],
-                let moduleName = item[MKServiceManager.localModuleKey],
-                let serviceName = item[MKServiceManager.localServiceKey],
-                let implName = item[MKServiceManager.localImplKey] else {
+                let moduleName = item[ServiceManager.localModuleKey],
+                let serviceName = item[ServiceManager.localServiceKey],
+                let implName = item[ServiceManager.localImplKey] else {
                 return nil
             }
             
             let fullImplName = moduleName + "." + implName
-            guard let implClass = NSClassFromString(fullImplName) as? MKServiceProtocol.Type else {
+            guard let implClass = NSClassFromString(fullImplName) as? ServiceProtocol.Type else {
                 return nil
             }
             
@@ -156,7 +156,7 @@ public extension MKServiceManager {
 }
 
 // MARK: - Service Create
-public extension MKServiceManager {
+public extension ServiceManager {
     /// 根据服务名称创建服务（如果缓存中已有服务实例，则不需要创建）
     /// - Parameters:
     ///   - named: 服务名称
@@ -185,12 +185,12 @@ public extension MKServiceManager {
     ///   - service: 服务接口
     ///   - shouldCache: 是否需要缓存
     func createService<Service>(_ service: Service.Type, shouldCache: Bool = true) -> Service? {
-        return createService(named: MKServiceManager.serviceName(of: service), shouldCache: shouldCache) as? Service
+        return createService(named: ServiceManager.serviceName(of: service), shouldCache: shouldCache) as? Service
     }
 }
 
 // MARK: - Service Fetch
-public extension MKServiceManager {
+public extension ServiceManager {
     /// 通过服务名称获取服务
     /// - Parameter named: 服务名称
     func getService(named: String) -> Any? {
@@ -202,13 +202,13 @@ public extension MKServiceManager {
     /// 通过服务接口获取服务
     /// - Parameter service: 服务接口
     func getService<Service>(_ service: Service.Type) -> Service? {
-        return getService(named: MKServiceManager.serviceName(of: service)) as? Service
+        return getService(named: ServiceManager.serviceName(of: service)) as? Service
     }
 }
 
 
 // MARK: - Service Clean Cache
-public extension MKServiceManager {
+public extension ServiceManager {
     func cleanAllServiceCache() {
         serviceQueue.async {
             self.servicesCache.removeAll()
@@ -224,6 +224,6 @@ public extension MKServiceManager {
     
     @discardableResult
     func cleanServiceCache<Service>(by service: Service.Type) -> Service? {
-        return cleanServiceCache(named: MKServiceManager.serviceName(of: service)) as? Service
+        return cleanServiceCache(named: ServiceManager.serviceName(of: service)) as? Service
     }
 }

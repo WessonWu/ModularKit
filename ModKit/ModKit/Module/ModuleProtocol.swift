@@ -1,5 +1,5 @@
 //
-//  MKModuleProtocol.swift
+//  ModuleProtocol.swift
 //  ModKit
 //
 //  Created by wuweixin on 2020/1/3.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-public protocol MKModuleProtocol: NSObject {
+public protocol ModuleProtocol: NSObject {
     init() 
     // MARK: - Level & Priority
-    var moduleLevel: MKModuleLevel { get }
-    var modulePriority: MKModulePriority { get }
+    var moduleLevel: ModuleLevel { get }
+    var modulePriority: ModulePriority { get }
     // MARK: - Common
     func moduleSetUp()
     func moduleTearDown()
@@ -75,15 +75,15 @@ public protocol MKModuleProtocol: NSObject {
     
     
     // MARK: - CustomAction
-    func moduleDidReceiveCustomEvent(event: MKModuleEvent)
+    func moduleDidReceiveEvent(event: ModuleEvent)
 }
 
 
-public extension MKModuleProtocol {
-    var moduleLevel: MKModuleLevel {
+public extension ModuleProtocol {
+    var moduleLevel: ModuleLevel {
         return .normal
     }
-    var modulePriority: MKModulePriority {
+    var modulePriority: ModulePriority {
         return .default
     }
     
@@ -149,5 +149,5 @@ public extension MKModuleProtocol {
     
     
     // MARK: - CustomAction
-    func moduleDidReceiveCustomEvent(event: MKModuleEvent) {}
+    func moduleDidReceiveCustomEvent(event: ModuleEvent) {}
 }
