@@ -9,20 +9,20 @@
 import XCTest
 import ModKit
 
-final class TestLocalModule: NSObject, MKModuleProtocol {
+final class TestLocalModule: NSObject, ModuleProtocol {
     func test() {
         print("Test Local Service Impl")
     }
 }
 
-final class TestLocalModule1: NSObject, MKModuleProtocol {}
-final class TestLocalModule2: NSObject, MKModuleProtocol {}
-final class TestLocalModule3: NSObject, MKModuleProtocol {}
+final class TestLocalModule1: NSObject, ModuleProtocol {}
+final class TestLocalModule2: NSObject, ModuleProtocol {}
+final class TestLocalModule3: NSObject, ModuleProtocol {}
 
 class TestLocalModuleRegister: XCTestCase {
     
-    var manager: MKModuleManager {
-        return MKModuleManager.shared
+    var manager: ModuleManager {
+        return ModuleManager.shared
     }
 
     override func setUp() {

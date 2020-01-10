@@ -149,5 +149,5 @@ public extension ModuleProtocol {
     
     
     // MARK: - CustomAction
-    func moduleDidReceiveCustomEvent(event: ModuleEvent) {}
+    func moduleDidReceiveEvent(event: ModuleEvent) {}
 }

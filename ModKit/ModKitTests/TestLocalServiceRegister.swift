@@ -11,7 +11,7 @@ import Foundation
 import ModKit
 
 @objc
-protocol TestLocalServiceProtocol: MKServiceProtocol {
+protocol TestLocalServiceProtocol: ServiceProtocol {
     func test()
 }
 
@@ -23,8 +23,8 @@ final class TestLocalServiceImpl: NSObject, TestLocalServiceProtocol {
 
 class TestLocalServiceRegister: XCTestCase {
     
-    var manager: MKServiceManager {
-        return MKServiceManager.shared
+    var manager: ServiceManager {
+        return ServiceManager.shared
     }
 
     override func setUp() {

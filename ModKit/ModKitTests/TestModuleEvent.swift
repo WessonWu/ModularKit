@@ -10,16 +10,16 @@ import XCTest
 import ModKit
 
 class TestModuleEvent: XCTestCase {
-    static var assertion: ((MKModuleEvent) -> Void)?
+    static var assertion: ((ModuleEvent) -> Void)?
     
-    final class MockedEventModule: NSObject, MKModuleProtocol {
-        func moduleDidReceiveCustomEvent(event: MKModuleEvent) {
+    final class MockedEventModule: NSObject, ModuleProtocol {
+        func moduleDidReceiveEvent(event: ModuleEvent) {
             TestModuleEvent.assertion?(event)
         }
     }
     
-    var manager: MKModuleManager {
-        return MKModuleManager.shared
+    var manager: ModuleManager {
+        return ModuleManager.shared
     }
 
     override func setUp() {
@@ -31,18 +31,18 @@ class TestModuleEvent: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    func postAssertion(event: MKModuleEvent, evaluate: @escaping (MKModuleEvent) -> Void) {
+    func postAssertion(event: ModuleEvent, evaluate: @escaping (ModuleEvent) -> Void) {
         TestModuleEvent.assertion = evaluate
         manager.postEvent(event)
     }
     
     func testEvent() {
-        let name = MKModuleEvent.Name(rawValue: "MockedEvent")
-        manager.registerCustomEvent(name, forModule: MockedEventModule.self)
+        let name = ModuleEvent.Name(rawValue: "MockedEvent")
+        manager.registerEvent(name, forModule: MockedEventModule.self)
 
         let testKey1 = "key1"
         let testValue1 = "Hello World!"
-        let event = MKModuleEvent(name: name, userInfo: [testKey1: testValue1])
+        let event = ModuleEvent(name: name, userInfo: [testKey1: testValue1])
         postAssertion(event: event) { (ev) in
             XCTAssert(ev.userInfo?[testKey1] as? String == testValue1)
         }

@@ -15,7 +15,7 @@
 		0A9C464723C349FC000749A5 /* ServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C464623C349FC000749A5 /* ServiceProtocol.swift */; };
 		0A9C464923C34A37000749A5 /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C464823C34A37000749A5 /* ServiceManager.swift */; };
 		0A9C465323C41406000749A5 /* ModKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A1F196823BF3F1E00CED36F /* ModKit.framework */; };
-		0A9C465C23C4649C000749A5 /* TestMKServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C465B23C4649C000749A5 /* TestMKServiceManager.swift */; };
+		0A9C465C23C4649C000749A5 /* TestServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C465B23C4649C000749A5 /* TestServiceManager.swift */; };
 		0A9C465E23C57DC1000749A5 /* TestModuleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C465D23C57DC1000749A5 /* TestModuleManager.swift */; };
 		0A9C466023C5A962000749A5 /* ModuleDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C465F23C5A962000749A5 /* ModuleDefines.swift */; };
 		0A9C466223C5DADC000749A5 /* TestModuleEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C466123C5DADC000749A5 /* TestModuleEvent.swift */; };
@@ -50,7 +50,7 @@
 		0A9C464823C34A37000749A5 /* ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
 		0A9C464E23C41406000749A5 /* ModKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ModKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A9C465223C41406000749A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0A9C465B23C4649C000749A5 /* TestMKServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMKServiceManager.swift; sourceTree = "<group>"; };
+		0A9C465B23C4649C000749A5 /* TestServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestServiceManager.swift; sourceTree = "<group>"; };
 		0A9C465D23C57DC1000749A5 /* TestModuleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestModuleManager.swift; sourceTree = "<group>"; };
 		0A9C465F23C5A962000749A5 /* ModuleDefines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleDefines.swift; sourceTree = "<group>"; };
 		0A9C466123C5DADC000749A5 /* TestModuleEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestModuleEvent.swift; sourceTree = "<group>"; };
@@ -155,7 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				0A9C465223C41406000749A5 /* Info.plist */,
-				0A9C465B23C4649C000749A5 /* TestMKServiceManager.swift */,
+				0A9C465B23C4649C000749A5 /* TestServiceManager.swift */,
 				0A9C465D23C57DC1000749A5 /* TestModuleManager.swift */,
 				0A9C466123C5DADC000749A5 /* TestModuleEvent.swift */,
 				0AFF2A4723C62167007A3DB1 /* MKService.plist */,
@@ -295,7 +295,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A9C465C23C4649C000749A5 /* TestMKServiceManager.swift in Sources */,
+				0A9C465C23C4649C000749A5 /* TestServiceManager.swift in Sources */,
 				0A9C466223C5DADC000749A5 /* TestModuleEvent.swift in Sources */,
 				0AFF2A4A23C62227007A3DB1 /* TestLocalServiceRegister.swift in Sources */,
 				0A9C466623C6E16B000749A5 /* TestLocalModuleRegister.swift in Sources */,

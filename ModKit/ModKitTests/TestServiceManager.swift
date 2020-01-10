@@ -1,5 +1,5 @@
 //
-//  TestMKServiceManager.swift
+//  TestServiceManager.swift
 //  ModKitTests
 //
 //  Created by wuweixin on 2020/1/7.
@@ -9,7 +9,7 @@
 import XCTest
 import ModKit
 
-protocol TestProtocol: MKServiceProtocol {
+protocol TestProtocol: ServiceProtocol {
     var value: Int { get }
     func test() -> String
 }
@@ -56,9 +56,9 @@ final class TestBImpl: NSObject, TestBProtocol {
 }
 
 
-class TestMKServiceManager: XCTestCase {
-    var manager: MKServiceManager {
-        return MKServiceManager.shared
+class TestServiceManager: XCTestCase {
+    var manager: ServiceManager {
+        return ServiceManager.shared
     }
     
     func testServicesWithName() {
@@ -165,8 +165,8 @@ class TestMKServiceManager: XCTestCase {
     
     func testRegisterBatchServices() {
         manager.registerService(entryLiteral:
-            (MKServiceManager.serviceName(of: TestAProtocol.self), { TestAImpl() }),
-            (MKServiceManager.serviceName(of: TestBProtocol.self), { TestBImpl() })
+            (ServiceManager.serviceName(of: TestAProtocol.self), { TestAImpl() }),
+            (ServiceManager.serviceName(of: TestBProtocol.self), { TestBImpl() })
         )
         
         let serviceA = manager.createService(TestAProtocol.self)

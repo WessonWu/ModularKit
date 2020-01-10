@@ -9,16 +9,16 @@
 import XCTest
 import ModKit
 
-final class AModule: NSObject, MKModuleProtocol {
+final class AModule: NSObject, ModuleProtocol {
 }
 
-final class BModule: NSObject, MKModuleProtocol {
+final class BModule: NSObject, ModuleProtocol {
     
 }
 
 class TestModuleManager: XCTestCase {
-    var manager: MKModuleManager {
-        return MKModuleManager.shared
+    var manager: ModuleManager {
+        return ModuleManager.shared
     }
     
     override func invokeTest() {
