@@ -12,9 +12,8 @@
 		0A1F19AF23BF429500CED36F /* ApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1F19AE23BF429500CED36F /* ApplicationDelegate.swift */; };
 		0A4372A123C2C510005012CB /* ModuleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4372A023C2C510005012CB /* ModuleManager.swift */; };
 		0A5BAD7623C80A7A0051DCC4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5BAD7523C80A7A0051DCC4 /* Extensions.swift */; };
-		0A5BAD7923C80DFE0051DCC4 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5BAD7823C80DFE0051DCC4 /* Router.swift */; };
-		0A5BAD7B23C81FE50051DCC4 /* URLPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5BAD7A23C81FE50051DCC4 /* URLPattern.swift */; };
-		0A5BAD7D23C820B60051DCC4 /* URLSlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5BAD7C23C820B60051DCC4 /* URLSlice.swift */; };
+		0A5BAD7923C80DFE0051DCC4 /* URLRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5BAD7823C80DFE0051DCC4 /* URLRouter.swift */; };
+		0A5BAD7B23C81FE50051DCC4 /* URLSlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5BAD7A23C81FE50051DCC4 /* URLSlice.swift */; };
 		0A5BAD8123C836C40051DCC4 /* TestURLComponentSlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5BAD8023C836C40051DCC4 /* TestURLComponentSlice.swift */; };
 		0A5BAD8323C877A20051DCC4 /* URLComponentsConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5BAD8223C877A20051DCC4 /* URLComponentsConvertible.swift */; };
 		0A9C464723C349FC000749A5 /* ServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C464623C349FC000749A5 /* ServiceProtocol.swift */; };
@@ -31,6 +30,10 @@
 		0AFF2A4623C61923007A3DB1 /* ConfigSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFF2A4523C61923007A3DB1 /* ConfigSource.swift */; };
 		0AFF2A4823C62167007A3DB1 /* MKService.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AFF2A4723C62167007A3DB1 /* MKService.plist */; };
 		0AFF2A4A23C62227007A3DB1 /* TestLocalServiceRegister.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFF2A4923C62227007A3DB1 /* TestLocalServiceRegister.swift */; };
+		0AFF2A4C23C9712D007A3DB1 /* URLSlicer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFF2A4B23C9712D007A3DB1 /* URLSlicer.swift */; };
+		0AFF2A4E23C97F74007A3DB1 /* URLVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFF2A4D23C97F74007A3DB1 /* URLVariable.swift */; };
+		0AFF2A5023CAAB8A007A3DB1 /* URLMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFF2A4F23CAAB8A007A3DB1 /* URLMatcher.swift */; };
+		0AFF2A5223CB36A2007A3DB1 /* URLRouterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFF2A5123CB36A2007A3DB1 /* URLRouterError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,9 +54,8 @@
 		0A1F19AE23BF429500CED36F /* ApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationDelegate.swift; sourceTree = "<group>"; };
 		0A4372A023C2C510005012CB /* ModuleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleManager.swift; sourceTree = "<group>"; };
 		0A5BAD7523C80A7A0051DCC4 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		0A5BAD7823C80DFE0051DCC4 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
-		0A5BAD7A23C81FE50051DCC4 /* URLPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLPattern.swift; sourceTree = "<group>"; };
-		0A5BAD7C23C820B60051DCC4 /* URLSlice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSlice.swift; sourceTree = "<group>"; };
+		0A5BAD7823C80DFE0051DCC4 /* URLRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRouter.swift; sourceTree = "<group>"; };
+		0A5BAD7A23C81FE50051DCC4 /* URLSlice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSlice.swift; sourceTree = "<group>"; };
 		0A5BAD8023C836C40051DCC4 /* TestURLComponentSlice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestURLComponentSlice.swift; sourceTree = "<group>"; };
 		0A5BAD8223C877A20051DCC4 /* URLComponentsConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLComponentsConvertible.swift; sourceTree = "<group>"; };
 		0A9C464623C349FC000749A5 /* ServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocol.swift; sourceTree = "<group>"; };
@@ -71,6 +73,10 @@
 		0AFF2A4523C61923007A3DB1 /* ConfigSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigSource.swift; sourceTree = "<group>"; };
 		0AFF2A4723C62167007A3DB1 /* MKService.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = MKService.plist; sourceTree = "<group>"; };
 		0AFF2A4923C62227007A3DB1 /* TestLocalServiceRegister.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLocalServiceRegister.swift; sourceTree = "<group>"; };
+		0AFF2A4B23C9712D007A3DB1 /* URLSlicer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSlicer.swift; sourceTree = "<group>"; };
+		0AFF2A4D23C97F74007A3DB1 /* URLVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLVariable.swift; sourceTree = "<group>"; };
+		0AFF2A4F23CAAB8A007A3DB1 /* URLMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMatcher.swift; sourceTree = "<group>"; };
+		0AFF2A5123CB36A2007A3DB1 /* URLRouterError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRouterError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,10 +171,13 @@
 		0A5BAD7723C80CFF0051DCC4 /* Router */ = {
 			isa = PBXGroup;
 			children = (
-				0A5BAD7823C80DFE0051DCC4 /* Router.swift */,
-				0A5BAD7A23C81FE50051DCC4 /* URLPattern.swift */,
-				0A5BAD7C23C820B60051DCC4 /* URLSlice.swift */,
+				0A5BAD7823C80DFE0051DCC4 /* URLRouter.swift */,
+				0A5BAD7A23C81FE50051DCC4 /* URLSlice.swift */,
 				0A5BAD8223C877A20051DCC4 /* URLComponentsConvertible.swift */,
+				0AFF2A4B23C9712D007A3DB1 /* URLSlicer.swift */,
+				0AFF2A4D23C97F74007A3DB1 /* URLVariable.swift */,
+				0AFF2A4F23CAAB8A007A3DB1 /* URLMatcher.swift */,
+				0AFF2A5123CB36A2007A3DB1 /* URLRouterError.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -301,18 +310,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A5BAD7923C80DFE0051DCC4 /* Router.swift in Sources */,
-				0A5BAD7D23C820B60051DCC4 /* URLSlice.swift in Sources */,
+				0A5BAD7923C80DFE0051DCC4 /* URLRouter.swift in Sources */,
 				0A4372A123C2C510005012CB /* ModuleManager.swift in Sources */,
+				0AFF2A4E23C97F74007A3DB1 /* URLVariable.swift in Sources */,
 				0A9C466423C6CB73000749A5 /* ModuleManager+Internal.swift in Sources */,
 				0A9C464723C349FC000749A5 /* ServiceProtocol.swift in Sources */,
 				0A9C466023C5A962000749A5 /* ModuleDefines.swift in Sources */,
 				0A9C464923C34A37000749A5 /* ServiceManager.swift in Sources */,
 				0A5BAD8323C877A20051DCC4 /* URLComponentsConvertible.swift in Sources */,
+				0AFF2A5023CAAB8A007A3DB1 /* URLMatcher.swift in Sources */,
+				0AFF2A5223CB36A2007A3DB1 /* URLRouterError.swift in Sources */,
 				0A5BAD7623C80A7A0051DCC4 /* Extensions.swift in Sources */,
 				0A1F19AD23BF40BD00CED36F /* ModuleProtocol.swift in Sources */,
 				0AFF2A4623C61923007A3DB1 /* ConfigSource.swift in Sources */,
-				0A5BAD7B23C81FE50051DCC4 /* URLPattern.swift in Sources */,
+				0A5BAD7B23C81FE50051DCC4 /* URLSlice.swift in Sources */,
+				0AFF2A4C23C9712D007A3DB1 /* URLSlicer.swift in Sources */,
 				0A9C466A23C6FE51000749A5 /* WatchDog.swift in Sources */,
 				0A1F19AF23BF429500CED36F /* ApplicationDelegate.swift in Sources */,
 			);

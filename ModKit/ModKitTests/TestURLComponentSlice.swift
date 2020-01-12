@@ -51,7 +51,7 @@ class TestURLComponentSlice: XCTestCase {
         XCTAssert(set1.count == 5)
         
         
-        let url = "https://*:*@www.example.com:*/<path1:string>/<path2:string>?q1=<string>&q2=<int>"
+        let url = "https://*:*@www.example.com:80/<path1:string>/<path2:string>?q1=<string>&q1=<int>"
         var set = CharacterSet()
         set.formUnion(.urlHostAllowed)
         set.formUnion(.urlPathAllowed)
