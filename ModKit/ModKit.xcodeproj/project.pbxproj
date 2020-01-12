@@ -14,7 +14,6 @@
 		0A5BAD7623C80A7A0051DCC4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5BAD7523C80A7A0051DCC4 /* Extensions.swift */; };
 		0A5BAD7923C80DFE0051DCC4 /* URLRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5BAD7823C80DFE0051DCC4 /* URLRouter.swift */; };
 		0A5BAD7B23C81FE50051DCC4 /* URLSlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5BAD7A23C81FE50051DCC4 /* URLSlice.swift */; };
-		0A5BAD8123C836C40051DCC4 /* TestURLComponentSlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5BAD8023C836C40051DCC4 /* TestURLComponentSlice.swift */; };
 		0A5BAD8323C877A20051DCC4 /* URLComponentsConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5BAD8223C877A20051DCC4 /* URLComponentsConvertible.swift */; };
 		0A9C464723C349FC000749A5 /* ServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C464623C349FC000749A5 /* ServiceProtocol.swift */; };
 		0A9C464923C34A37000749A5 /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C464823C34A37000749A5 /* ServiceManager.swift */; };
@@ -27,6 +26,8 @@
 		0A9C466623C6E16B000749A5 /* TestLocalModuleRegister.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C466523C6E16B000749A5 /* TestLocalModuleRegister.swift */; };
 		0A9C466823C6E183000749A5 /* MKModule.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A9C466723C6E183000749A5 /* MKModule.plist */; };
 		0A9C466A23C6FE51000749A5 /* WatchDog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C466923C6FE51000749A5 /* WatchDog.swift */; };
+		0AFC535B23CB4C12002C0198 /* TestURLSlicer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFC535A23CB4C12002C0198 /* TestURLSlicer.swift */; };
+		0AFC535D23CB4D52002C0198 /* TestURLVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFC535C23CB4D52002C0198 /* TestURLVariable.swift */; };
 		0AFF2A4623C61923007A3DB1 /* ConfigSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFF2A4523C61923007A3DB1 /* ConfigSource.swift */; };
 		0AFF2A4823C62167007A3DB1 /* MKService.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AFF2A4723C62167007A3DB1 /* MKService.plist */; };
 		0AFF2A4A23C62227007A3DB1 /* TestLocalServiceRegister.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFF2A4923C62227007A3DB1 /* TestLocalServiceRegister.swift */; };
@@ -56,7 +57,6 @@
 		0A5BAD7523C80A7A0051DCC4 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		0A5BAD7823C80DFE0051DCC4 /* URLRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRouter.swift; sourceTree = "<group>"; };
 		0A5BAD7A23C81FE50051DCC4 /* URLSlice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSlice.swift; sourceTree = "<group>"; };
-		0A5BAD8023C836C40051DCC4 /* TestURLComponentSlice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestURLComponentSlice.swift; sourceTree = "<group>"; };
 		0A5BAD8223C877A20051DCC4 /* URLComponentsConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLComponentsConvertible.swift; sourceTree = "<group>"; };
 		0A9C464623C349FC000749A5 /* ServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocol.swift; sourceTree = "<group>"; };
 		0A9C464823C34A37000749A5 /* ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
@@ -70,6 +70,8 @@
 		0A9C466523C6E16B000749A5 /* TestLocalModuleRegister.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLocalModuleRegister.swift; sourceTree = "<group>"; };
 		0A9C466723C6E183000749A5 /* MKModule.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = MKModule.plist; sourceTree = "<group>"; };
 		0A9C466923C6FE51000749A5 /* WatchDog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchDog.swift; sourceTree = "<group>"; };
+		0AFC535A23CB4C12002C0198 /* TestURLSlicer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestURLSlicer.swift; sourceTree = "<group>"; };
+		0AFC535C23CB4D52002C0198 /* TestURLVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestURLVariable.swift; sourceTree = "<group>"; };
 		0AFF2A4523C61923007A3DB1 /* ConfigSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigSource.swift; sourceTree = "<group>"; };
 		0AFF2A4723C62167007A3DB1 /* MKService.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = MKService.plist; sourceTree = "<group>"; };
 		0AFF2A4923C62227007A3DB1 /* TestLocalServiceRegister.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLocalServiceRegister.swift; sourceTree = "<group>"; };
@@ -193,7 +195,8 @@
 				0AFF2A4923C62227007A3DB1 /* TestLocalServiceRegister.swift */,
 				0A9C466523C6E16B000749A5 /* TestLocalModuleRegister.swift */,
 				0A9C466723C6E183000749A5 /* MKModule.plist */,
-				0A5BAD8023C836C40051DCC4 /* TestURLComponentSlice.swift */,
+				0AFC535A23CB4C12002C0198 /* TestURLSlicer.swift */,
+				0AFC535C23CB4D52002C0198 /* TestURLVariable.swift */,
 			);
 			path = ModKitTests;
 			sourceTree = "<group>";
@@ -334,11 +337,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A5BAD8123C836C40051DCC4 /* TestURLComponentSlice.swift in Sources */,
 				0A9C465C23C4649C000749A5 /* TestServiceManager.swift in Sources */,
+				0AFC535B23CB4C12002C0198 /* TestURLSlicer.swift in Sources */,
 				0A9C466223C5DADC000749A5 /* TestModuleEvent.swift in Sources */,
 				0AFF2A4A23C62227007A3DB1 /* TestLocalServiceRegister.swift in Sources */,
 				0A9C466623C6E16B000749A5 /* TestLocalModuleRegister.swift in Sources */,
+				0AFC535D23CB4D52002C0198 /* TestURLVariable.swift in Sources */,
 				0A9C465E23C57DC1000749A5 /* TestModuleManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

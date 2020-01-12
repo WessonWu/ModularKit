@@ -52,7 +52,7 @@ public extension URLVariable {
     }
     
     static func formatOfQuery(_ queryItem: URLQueryItem) -> String {
-        return formatOfQuery(name: queryItem.name, type: queryItem.value.strValue)
+        return "\(queryItem.name)=\(queryItem.value.strValue)"
     }
     
     static func format(from str: String) -> String? {

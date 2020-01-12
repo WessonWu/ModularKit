@@ -1,6 +1,6 @@
 import Foundation
 
-public enum URLRouterError: Swift.Error {
+public enum URLRouterError: Swift.Error, Equatable {
     // url
     case urlHasNoScheme
     case urlHasNoHost
