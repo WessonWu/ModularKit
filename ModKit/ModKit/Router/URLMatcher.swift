@@ -27,7 +27,6 @@ public struct URLMatchContext {
 }
 
 public final class URLMatcher {
-    private var routesMap: NSMutableDictionary = NSMutableDictionary()
     public static let defaultConverters: [String: URLVariable.TypeConverter] = [
         "string": { $0 },
         "int": { Int($0) },
@@ -51,6 +50,10 @@ public final class URLMatcher {
         }
         return customTypeConverters[type]
     }
+    
+    
+    private var routesMap: NSMutableDictionary = NSMutableDictionary()
+    public init() {}
     
     public func canMatch(_ components: URLComponents) -> Bool {
         return doMatch(components) != nil

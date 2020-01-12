@@ -28,6 +28,7 @@
 		0A9C466A23C6FE51000749A5 /* WatchDog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C466923C6FE51000749A5 /* WatchDog.swift */; };
 		0AFC535B23CB4C12002C0198 /* TestURLSlicer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFC535A23CB4C12002C0198 /* TestURLSlicer.swift */; };
 		0AFC535D23CB4D52002C0198 /* TestURLVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFC535C23CB4D52002C0198 /* TestURLVariable.swift */; };
+		0AFC535F23CB5DA8002C0198 /* TestURLMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFC535E23CB5DA8002C0198 /* TestURLMatcher.swift */; };
 		0AFF2A4623C61923007A3DB1 /* ConfigSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFF2A4523C61923007A3DB1 /* ConfigSource.swift */; };
 		0AFF2A4823C62167007A3DB1 /* MKService.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AFF2A4723C62167007A3DB1 /* MKService.plist */; };
 		0AFF2A4A23C62227007A3DB1 /* TestLocalServiceRegister.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFF2A4923C62227007A3DB1 /* TestLocalServiceRegister.swift */; };
@@ -72,6 +73,7 @@
 		0A9C466923C6FE51000749A5 /* WatchDog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchDog.swift; sourceTree = "<group>"; };
 		0AFC535A23CB4C12002C0198 /* TestURLSlicer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestURLSlicer.swift; sourceTree = "<group>"; };
 		0AFC535C23CB4D52002C0198 /* TestURLVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestURLVariable.swift; sourceTree = "<group>"; };
+		0AFC535E23CB5DA8002C0198 /* TestURLMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestURLMatcher.swift; sourceTree = "<group>"; };
 		0AFF2A4523C61923007A3DB1 /* ConfigSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigSource.swift; sourceTree = "<group>"; };
 		0AFF2A4723C62167007A3DB1 /* MKService.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = MKService.plist; sourceTree = "<group>"; };
 		0AFF2A4923C62227007A3DB1 /* TestLocalServiceRegister.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLocalServiceRegister.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 				0A9C466723C6E183000749A5 /* MKModule.plist */,
 				0AFC535A23CB4C12002C0198 /* TestURLSlicer.swift */,
 				0AFC535C23CB4D52002C0198 /* TestURLVariable.swift */,
+				0AFC535E23CB5DA8002C0198 /* TestURLMatcher.swift */,
 			);
 			path = ModKitTests;
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 				0AFF2A4A23C62227007A3DB1 /* TestLocalServiceRegister.swift in Sources */,
 				0A9C466623C6E16B000749A5 /* TestLocalModuleRegister.swift in Sources */,
 				0AFC535D23CB4D52002C0198 /* TestURLVariable.swift in Sources */,
+				0AFC535F23CB5DA8002C0198 /* TestURLMatcher.swift in Sources */,
 				0A9C465E23C57DC1000749A5 /* TestModuleManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
