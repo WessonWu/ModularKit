@@ -5,20 +5,6 @@ public struct URLMatchContext {
     public let matched: [URLSlicePattern]
     public let parameters: [AnyHashable: Any]
     
-    public var format: String {
-        return matched.map { (pattern) -> String in
-            switch pattern {
-            case let .scheme(scheme):
-                return scheme + ":/"
-            case let .signhost(signhost):
-                return signhost
-            case let .path(path):
-                return path
-            }
-        }
-        .joined(separator: "/")
-    }
-    
     public init(tag: String, matched: [URLSlicePattern], parameters: [AnyHashable: Any]) {
         self.tag = tag
         self.matched = matched
@@ -59,6 +45,13 @@ public final class URLMatcher {
         return doMatch(components, exactly: exactly) != nil
     }
     
+    public func canMatch(_ url: URLConvertible, exactly: Bool = false) -> Bool {
+        guard let comps = url.urlComponents else {
+            return false
+        }
+        return canMatch(comps, exactly: exactly)
+    }
+    
     public func matches(_ components: URLComponents, exactly: Bool = false) -> URLMatchContext? {
         guard let result = doMatch(components, exactly: exactly) else {
             return nil
@@ -91,23 +84,68 @@ public final class URLMatcher {
         return URLMatchContext(tag: endpoint.tag, matched: result.matched, parameters: parameters)
     }
     
+    public func matches(_ url: URLConvertible, exactly: Bool = false) -> URLMatchContext? {
+        guard let comps = url.urlComponents else {
+            return nil
+        }
+        return matches(comps, exactly: exactly)
+    }
+    
     public func register(pattern components: URLComponents, tag: String) throws {
         let context = try URLSlicer.parse(pattern: components)
         let patterns = context.patterns
         let route = addURLPatternRoute(patterns: patterns)
         guard route[URLPatternEndpoint.key] == nil else {
-            throw URLRouterError.duplicateRegistration
+            throw URLRouterError.ambiguousRegistration
         }
         // write a record
         route[URLPatternEndpoint.key] = URLPatternEndpoint(tag: tag, pathVars: context.pathVars, queryVars: context.queryVars)
     }
     
-    public func unregister(pattern components: URLComponents, exactly: Bool = false) -> Bool {
-        guard let result = doMatch(components, exactly: exactly) else {
+    @discardableResult
+    public func register(pattern url: URLConvertible) -> Result<String, URLRouterError> {
+        guard let components = url.urlComponents else {
+            return .failure(.underlying(URLError(.badURL)))
+        }
+        let tag = url.absoluteString
+        do {
+            try register(pattern: components, tag: tag)
+        } catch {
+            if let resolved = error as? URLRouterError {
+                return .failure(resolved)
+            }
+            return .failure(.underlying(error))
+        }
+        return .success(tag)
+    }
+    
+    public func unregister(pattern components: URLComponents) -> Bool {
+        guard let result = doMatch(components, exactly: false) else {
             return false
         }
         result.subRoutes.removeObject(forKey: URLPatternEndpoint.key)
         return true
+    }
+    
+    public func unregister(pattern url: URLConvertible) -> Bool {
+        guard let comps = url.urlComponents else {
+            return false
+        }
+        return unregister(pattern: comps)
+    }
+    
+    public static func format(for patterns: [URLSlicePattern]) -> String {
+        return patterns.map { (pattern) -> String in
+            switch pattern {
+            case let .scheme(scheme):
+                return scheme + ":/"
+            case let .signhost(signhost):
+                return signhost
+            case let .path(path):
+                return path
+            }
+        }
+        .joined(separator: "/")
     }
     
     private func addURLPatternRoute(patterns: [URLSlicePattern]) -> NSMutableDictionary {

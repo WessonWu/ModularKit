@@ -14,7 +14,7 @@
 		0A5BAD7623C80A7A0051DCC4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5BAD7523C80A7A0051DCC4 /* Extensions.swift */; };
 		0A5BAD7923C80DFE0051DCC4 /* URLRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5BAD7823C80DFE0051DCC4 /* URLRouter.swift */; };
 		0A5BAD7B23C81FE50051DCC4 /* URLSlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5BAD7A23C81FE50051DCC4 /* URLSlice.swift */; };
-		0A5BAD8323C877A20051DCC4 /* URLComponentsConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5BAD8223C877A20051DCC4 /* URLComponentsConvertible.swift */; };
+		0A5BAD8323C877A20051DCC4 /* URLConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5BAD8223C877A20051DCC4 /* URLConvertible.swift */; };
 		0A9C464723C349FC000749A5 /* ServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C464623C349FC000749A5 /* ServiceProtocol.swift */; };
 		0A9C464923C34A37000749A5 /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C464823C34A37000749A5 /* ServiceManager.swift */; };
 		0A9C465323C41406000749A5 /* ModKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A1F196823BF3F1E00CED36F /* ModKit.framework */; };
@@ -26,6 +26,7 @@
 		0A9C466623C6E16B000749A5 /* TestLocalModuleRegister.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C466523C6E16B000749A5 /* TestLocalModuleRegister.swift */; };
 		0A9C466823C6E183000749A5 /* MKModule.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A9C466723C6E183000749A5 /* MKModule.plist */; };
 		0A9C466A23C6FE51000749A5 /* WatchDog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C466923C6FE51000749A5 /* WatchDog.swift */; };
+		0AE46A0423CC55F7001A9D68 /* TestRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE46A0323CC55F7001A9D68 /* TestRouter.swift */; };
 		0AFC535B23CB4C12002C0198 /* TestURLSlicer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFC535A23CB4C12002C0198 /* TestURLSlicer.swift */; };
 		0AFC535D23CB4D52002C0198 /* TestURLVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFC535C23CB4D52002C0198 /* TestURLVariable.swift */; };
 		0AFC535F23CB5DA8002C0198 /* TestURLMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFC535E23CB5DA8002C0198 /* TestURLMatcher.swift */; };
@@ -58,7 +59,7 @@
 		0A5BAD7523C80A7A0051DCC4 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		0A5BAD7823C80DFE0051DCC4 /* URLRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRouter.swift; sourceTree = "<group>"; };
 		0A5BAD7A23C81FE50051DCC4 /* URLSlice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSlice.swift; sourceTree = "<group>"; };
-		0A5BAD8223C877A20051DCC4 /* URLComponentsConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLComponentsConvertible.swift; sourceTree = "<group>"; };
+		0A5BAD8223C877A20051DCC4 /* URLConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConvertible.swift; sourceTree = "<group>"; };
 		0A9C464623C349FC000749A5 /* ServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocol.swift; sourceTree = "<group>"; };
 		0A9C464823C34A37000749A5 /* ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
 		0A9C464E23C41406000749A5 /* ModKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ModKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -71,6 +72,7 @@
 		0A9C466523C6E16B000749A5 /* TestLocalModuleRegister.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLocalModuleRegister.swift; sourceTree = "<group>"; };
 		0A9C466723C6E183000749A5 /* MKModule.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = MKModule.plist; sourceTree = "<group>"; };
 		0A9C466923C6FE51000749A5 /* WatchDog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchDog.swift; sourceTree = "<group>"; };
+		0AE46A0323CC55F7001A9D68 /* TestRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestRouter.swift; sourceTree = "<group>"; };
 		0AFC535A23CB4C12002C0198 /* TestURLSlicer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestURLSlicer.swift; sourceTree = "<group>"; };
 		0AFC535C23CB4D52002C0198 /* TestURLVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestURLVariable.swift; sourceTree = "<group>"; };
 		0AFC535E23CB5DA8002C0198 /* TestURLMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestURLMatcher.swift; sourceTree = "<group>"; };
@@ -177,7 +179,7 @@
 			children = (
 				0A5BAD7823C80DFE0051DCC4 /* URLRouter.swift */,
 				0A5BAD7A23C81FE50051DCC4 /* URLSlice.swift */,
-				0A5BAD8223C877A20051DCC4 /* URLComponentsConvertible.swift */,
+				0A5BAD8223C877A20051DCC4 /* URLConvertible.swift */,
 				0AFF2A4B23C9712D007A3DB1 /* URLSlicer.swift */,
 				0AFF2A4D23C97F74007A3DB1 /* URLVariable.swift */,
 				0AFF2A4F23CAAB8A007A3DB1 /* URLMatcher.swift */,
@@ -200,6 +202,7 @@
 				0AFC535A23CB4C12002C0198 /* TestURLSlicer.swift */,
 				0AFC535C23CB4D52002C0198 /* TestURLVariable.swift */,
 				0AFC535E23CB5DA8002C0198 /* TestURLMatcher.swift */,
+				0AE46A0323CC55F7001A9D68 /* TestRouter.swift */,
 			);
 			path = ModKitTests;
 			sourceTree = "<group>";
@@ -323,7 +326,7 @@
 				0A9C464723C349FC000749A5 /* ServiceProtocol.swift in Sources */,
 				0A9C466023C5A962000749A5 /* ModuleDefines.swift in Sources */,
 				0A9C464923C34A37000749A5 /* ServiceManager.swift in Sources */,
-				0A5BAD8323C877A20051DCC4 /* URLComponentsConvertible.swift in Sources */,
+				0A5BAD8323C877A20051DCC4 /* URLConvertible.swift in Sources */,
 				0AFF2A5023CAAB8A007A3DB1 /* URLMatcher.swift in Sources */,
 				0AFF2A5223CB36A2007A3DB1 /* URLRouterError.swift in Sources */,
 				0A5BAD7623C80A7A0051DCC4 /* Extensions.swift in Sources */,
@@ -345,6 +348,7 @@
 				0A9C466223C5DADC000749A5 /* TestModuleEvent.swift in Sources */,
 				0AFF2A4A23C62227007A3DB1 /* TestLocalServiceRegister.swift in Sources */,
 				0A9C466623C6E16B000749A5 /* TestLocalModuleRegister.swift in Sources */,
+				0AE46A0423CC55F7001A9D68 /* TestRouter.swift in Sources */,
 				0AFC535D23CB4D52002C0198 /* TestURLVariable.swift in Sources */,
 				0AFC535F23CB5DA8002C0198 /* TestURLMatcher.swift in Sources */,
 				0A9C465E23C57DC1000749A5 /* TestModuleManager.swift in Sources */,

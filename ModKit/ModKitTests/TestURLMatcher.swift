@@ -59,7 +59,6 @@ class TestURLMatcher: XCTestCase {
         let comps = "https://www.example.com/user/<username:int>".asURLComponents()!
         XCTAssertThrowsError(try matcher.register(pattern: comps, tag: "test2"), "") { (error) in
             XCTAssert(error is URLRouterError)
-            XCTAssert((error as! URLRouterError) == URLRouterError.duplicateRegistration)
         }
         
         register(matcher: matcher, pattern: "https://www.example.com/user/<uid:int>/old", tag: "test3")

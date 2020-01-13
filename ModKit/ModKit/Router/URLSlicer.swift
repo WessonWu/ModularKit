@@ -28,10 +28,10 @@ public final class URLSlicer {
         try paths.forEach { path in
             if let format = URLVariable.format(from: path) {
                 guard let declare = URLVariable(format: format) else {
-                    throw URLRouterError.invalidDeclarationOfVariable(format: format)
+                    throw URLRouterError.unresolvedURLVariable(format)
                 }
                 if let origin = pathVars.first(where: { $0 == declare }) {
-                    throw URLRouterError.redeclarationOfVariable(before: origin.formatOfPath, format: format)
+                    throw URLRouterError.ambiguousURLVariable(origin.formatOfPath, format)
                 }
                 pathVars.append(declare)
                 patterns.append(.wildcard)
@@ -50,11 +50,11 @@ public final class URLSlicer {
             let format = URLVariable.formatOfQuery(query)
             let declare = URLVariable(name: query.name, type: type)
             if let origin = pathVars.first(where: { $0 == declare }) {
-                throw URLRouterError.redeclarationOfVariable(before: origin.formatOfPath, format: format)
+                throw URLRouterError.ambiguousURLVariable(origin.formatOfPath, format)
             }
             
             if let origin = queryVars.first(where: { $0 == declare }) {
-                throw URLRouterError.redeclarationOfVariable(before: origin.formatOfQuery, format: format)
+                throw URLRouterError.ambiguousURLVariable(origin.formatOfQuery, format)
             }
             
             queryVars.append(declare)
@@ -65,10 +65,10 @@ public final class URLSlicer {
     
     private class func commonSlices(from components: URLComponents) throws -> [URLSlice] {
         guard let scheme = components.scheme else {
-            throw URLRouterError.urlHasNoScheme
+            throw URLRouterError.urlSchemeLost
         }
         guard let host = components.host else {
-            throw URLRouterError.urlHasNoHost
+            throw URLRouterError.urlHostLost
         }
         
         let user = components.user.strValue
