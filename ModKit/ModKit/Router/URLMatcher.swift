@@ -55,12 +55,12 @@ public final class URLMatcher {
     private var routesMap: NSMutableDictionary = NSMutableDictionary()
     public init() {}
     
-    public func canMatch(_ components: URLComponents) -> Bool {
-        return doMatch(components) != nil
+    public func canMatch(_ components: URLComponents, exactly: Bool = false) -> Bool {
+        return doMatch(components, exactly: exactly) != nil
     }
     
-    public func matches(_ components: URLComponents) -> URLMatchContext? {
-        guard let result = doMatch(components) else {
+    public func matches(_ components: URLComponents, exactly: Bool = false) -> URLMatchContext? {
+        guard let result = doMatch(components, exactly: exactly) else {
             return nil
         }
         let pathValues = result.pathValues
@@ -102,6 +102,14 @@ public final class URLMatcher {
         route[URLPatternEndpoint.key] = URLPatternEndpoint(tag: tag, pathVars: context.pathVars, queryVars: context.queryVars)
     }
     
+    public func unregister(pattern components: URLComponents, exactly: Bool = false) -> Bool {
+        guard let result = doMatch(components, exactly: exactly) else {
+            return false
+        }
+        result.subRoutes.removeObject(forKey: URLPatternEndpoint.key)
+        return true
+    }
+    
     private func addURLPatternRoute(patterns: [URLSlicePattern]) -> NSMutableDictionary {
         var subRoutes = self.routesMap
         for pattern in patterns {
@@ -112,7 +120,7 @@ public final class URLMatcher {
         return subRoutes
     }
 
-    private func doMatch(_ components: URLComponents) -> (matched: [URLSlicePattern], pathValues: [String], endpoint: URLPatternEndpoint)? {
+    private func doMatch(_ components: URLComponents, exactly: Bool) -> (subRoutes: NSMutableDictionary, matched: [URLSlicePattern], pathValues: [String], endpoint: URLPatternEndpoint)? {
         guard let slices = try? URLSlicer.slice(components: components) else {
             return nil
         }
@@ -129,6 +137,10 @@ public final class URLMatcher {
                 continue
             }
             
+            if exactly {
+                return nil
+            }
+            
             if let map = subRoutes[wildcard] as? NSMutableDictionary {
                 subRoutes = map
                 matched.append(wildcard)
@@ -140,7 +152,7 @@ public final class URLMatcher {
         }
         
         if let endpoint = subRoutes[URLPatternEndpoint.key] as? URLPatternEndpoint {
-            return (matched, pathValues, endpoint)
+            return (subRoutes, matched, pathValues, endpoint)
         }
         return nil
     }
