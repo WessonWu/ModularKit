@@ -9,26 +9,6 @@
 import XCTest
 import ModKit
 
-extension String {
-    public func asURLComponents() -> URLComponents? {
-        if let comps = URLComponents(string: self) {
-            return comps
-        }
-        
-        let urlCharacters = CharacterSet.urlHostAllowed
-            .union(.urlUserAllowed)
-            .union(.urlPasswordAllowed)
-            .union(.urlPathAllowed)
-            .union(.urlQueryAllowed)
-            .union(.urlFragmentAllowed)
-        
-        guard let encodedUrl = self.addingPercentEncoding(withAllowedCharacters: urlCharacters) else {
-            return nil
-        }
-        return URLComponents(string: encodedUrl)
-    }
-}
-
 class TestURLSlicer: XCTestCase {
 
     override func setUp() {
@@ -47,31 +27,23 @@ class TestURLSlicer: XCTestCase {
         let path = "/user/hello"
         var comps = URLComponents()
         
-        XCTAssertThrowsError(try URLSlicer.slice(components: comps), "error") { (error) in
-            XCTAssert(error is URLRouterError)
-        }
+        XCTAssertEqual(URLSlicer.slice(components: comps), [])
         comps.scheme = scheme
         
-        XCTAssertThrowsError(try URLSlicer.slice(components: comps), "error") { (error) in
-            XCTAssert(error is URLRouterError)
-        }
+        XCTAssertEqual(URLSlicer.slice(components: comps), [.scheme(scheme)])
         
         comps.host = host
-        
-        XCTAssert(try URLSlicer.slice(components: comps) == [.scheme(scheme), .authority(host)])
+        XCTAssertEqual(URLSlicer.slice(components: comps), [.scheme(scheme), .authority(host)])
         
         comps.path = path
-        
-        XCTAssert(try URLSlicer.slice(components: comps) == [.scheme(scheme), .authority(host), .path("user"), .path("hello")])
+        XCTAssertEqual(URLSlicer.slice(components: comps), [.scheme(scheme), .authority(host), .path("user"), .path("hello")])
         
     }
     
     func testParse() {
-        func testcase1(_ url: String) {
-            let comps = url.asURLComponents()!
-            
+        func testcase1(_ url: URLConvertible) {
             do {
-                let context = try URLSlicer.parse(pattern: comps)
+                let context = try URLSlicer.parse(pattern: url)
                 XCTAssert(context.patterns == [.scheme("https"), .authority("www.example.com"), .path("user"), .pathVariable])
                 XCTAssert(context.pathVars == [URLVariable(name: "username", type: "string")])
                 XCTAssert(context.queryVars == [URLVariable(name: "q1", type: "int"), URLVariable(name: "q2", type: "bool")])
@@ -85,17 +57,15 @@ class TestURLSlicer: XCTestCase {
         testcase1("https://www.example.com/user/< username:string >?q1=< int >&q2=< bool >&q3=c3")
         
         
-        func testcase2(_ url: String) {
-            let comps = url.asURLComponents()!
-            XCTAssertThrowsError(try URLSlicer.parse(pattern: comps), "error") { (error) in
+        func testcase2(_ url: URLConvertible) {
+            XCTAssertThrowsError(try URLSlicer.parse(pattern: url), "error") { (error) in
                 XCTAssert(error is URLRouterError)
             }
         }
         testcase2("https://www.example.com/user/<username>?q1=<int>&q2=<bool>")
         
-        func testcase3(_ url: String) {
-            let comps = url.asURLComponents()!
-            XCTAssertThrowsError(try URLSlicer.parse(pattern: comps), "error") { (error) in
+        func testcase3(_ url: URLConvertible) {
+            XCTAssertThrowsError(try URLSlicer.parse(pattern: url), "error") { (error) in
                 XCTAssert(error is URLRouterError)
             }
         }

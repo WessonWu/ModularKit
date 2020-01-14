@@ -41,19 +41,18 @@ public final class URLMatcher {
     private var routesMap: NSMutableDictionary = NSMutableDictionary()
     public init() {}
     
-    public func canMatch(_ components: URLComponents, exactly: Bool = false) -> Bool {
-        return doMatch(components, exactly: exactly) != nil
-    }
-    
     public func canMatch(_ url: URLConvertible, exactly: Bool = false) -> Bool {
-        guard let comps = url.urlComponents else {
+        guard let components = url.urlComponents else {
             return false
         }
-        return canMatch(comps, exactly: exactly)
+        return doMatch(URLSlicer.slice(components: components), exactly: exactly) != nil
     }
     
-    public func matches(_ components: URLComponents, exactly: Bool = false) -> URLMatchContext? {
-        guard let result = doMatch(components, exactly: exactly) else {
+    public func matches(_ url: URLConvertible, exactly: Bool = false) -> URLMatchContext? {
+        guard let components = url.urlComponents else {
+            return nil
+        }
+        guard let result = doMatch(URLSlicer.slice(components: components), exactly: exactly) else {
             return nil
         }
         let pathValues = result.pathValues
@@ -72,8 +71,10 @@ public final class URLMatcher {
         })
         // parse path variables
         if let pathVars = endpoint.pathVars {
-            for (index, rawValue) in pathValues.enumerated() {
+            let count = min(pathVars.count, pathValues.count)
+            for index in (0 ..< count) {
                 let pathVar = pathVars[index]
+                let rawValue = pathValues[index]
                 if let converter = URLMatcher.converter(of: pathVar.type) {
                     parameters[pathVar.name] = converter(rawValue)
                 } else {
@@ -84,54 +85,41 @@ public final class URLMatcher {
         return URLMatchContext(tag: endpoint.tag, matched: result.matched, parameters: parameters)
     }
     
-    public func matches(_ url: URLConvertible, exactly: Bool = false) -> URLMatchContext? {
-        guard let comps = url.urlComponents else {
-            return nil
-        }
-        return matches(comps, exactly: exactly)
-    }
-    
-    public func register(pattern components: URLComponents, tag: String) throws {
-        let context = try URLSlicer.parse(pattern: components)
-        let patterns = context.patterns
-        let route = addURLPatternRoute(patterns: patterns)
-        guard route[URLPatternEndpoint.key] == nil else {
-            throw URLRouterError.ambiguousRegistration
-        }
-        // write a record
-        route[URLPatternEndpoint.key] = URLPatternEndpoint(tag: tag, pathVars: context.pathVars, queryVars: context.queryVars)
-    }
-    
     @discardableResult
-    public func register(pattern url: URLConvertible) -> Result<String, URLRouterError> {
-        guard let components = url.urlComponents else {
-            return .failure(.underlying(URLError(.badURL)))
-        }
-        let tag = url.absoluteString
+    public func register(pattern url: URLConvertible, tag: String? = nil) -> Result<String, URLRouterError> {
+        let context: URLPatternContext
         do {
-            try register(pattern: components, tag: tag)
+            context = try URLSlicer.parse(pattern: url)
         } catch {
             if let resolved = error as? URLRouterError {
                 return .failure(resolved)
             }
             return .failure(.underlying(error))
         }
+        
+        let patterns = context.patterns
+        let tag = tag ?? URLMatcher.format(for: patterns)
+        let route = addURLPatternRoute(patterns: patterns)
+        guard route[URLPatternEndpoint.key] == nil else {
+            return .failure(.ambiguousRegistration)
+        }
+        // write a record
+        route[URLPatternEndpoint.key] = URLPatternEndpoint(tag: tag, pathVars: context.pathVars, queryVars: context.queryVars)
         return .success(tag)
     }
     
-    public func unregister(pattern components: URLComponents) -> Bool {
-        guard let result = doMatch(components, exactly: true) else {
-            return false
-        }
-        result.subRoutes.removeObject(forKey: URLPatternEndpoint.key)
-        return true
-    }
-    
     public func unregister(pattern url: URLConvertible) -> Bool {
-        guard let comps = url.urlComponents else {
+        let context: URLPatternContext
+        do {
+            context = try URLSlicer.parse(pattern: url)
+        } catch {
             return false
         }
-        return unregister(pattern: comps)
+        guard let subRoutes = doMatch(context.patterns, exactly: true)?.subRoutes else {
+            return false
+        }
+        subRoutes.removeObject(forKey: URLPatternEndpoint.key)
+        return true
     }
     
     public static func format(for patterns: [URLSlicePattern]) -> String {
@@ -158,13 +146,11 @@ public final class URLMatcher {
         return subRoutes
     }
 
-    private func doMatch(_ components: URLComponents, exactly: Bool) -> (subRoutes: NSMutableDictionary, matched: [URLSlicePattern], pathValues: [String], endpoint: URLPatternEndpoint)? {
-        guard let slices = try? URLSlicer.slice(components: components) else {
-            return nil
-        }
+    private func doMatch(_ slices: [URLSlice], exactly: Bool) -> (subRoutes: NSMutableDictionary?, matched: [URLSlicePattern], pathValues: [String], endpoint: URLPatternEndpoint)? {
         // match: scheme://*, *://*
-        var wildendpoint: URLPatternEndpoint?
-        var wildmatched: [URLSlicePattern] = []
+        var wildEndpoint: URLPatternEndpoint?
+        var wildMatched: [URLSlicePattern] = []
+        var wildPathValues: [String] = []
         
         var matched: [URLSlicePattern] = []
         var pathValues: [String] = []
@@ -209,8 +195,9 @@ public final class URLMatcher {
             matched.append(wildcard)
             
             if let endpoint = subRoutes[URLPatternEndpoint.key] as? URLPatternEndpoint {
-                wildmatched = matched
-                wildendpoint = endpoint
+                wildEndpoint = endpoint
+                wildMatched = matched
+                wildPathValues = pathValues
             }
         }
         
@@ -219,8 +206,8 @@ public final class URLMatcher {
         }
         
         // match with (*://*, scheme://*, scheme://*/*)
-        if let endpoint = wildendpoint {
-            return (subRoutes, wildmatched, [], endpoint)
+        if let endpoint = wildEndpoint {
+            return (nil, wildMatched, wildPathValues, endpoint)
         }
         return nil
     }
