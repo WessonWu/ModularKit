@@ -34,7 +34,7 @@ public final class URLSlicer {
                     throw URLRouterError.ambiguousURLVariable(origin.formatOfPath, format)
                 }
                 pathVars.append(declare)
-                patterns.append(.wildcard)
+                patterns.append(.pathVariable)
                 return
             }
             patterns.append(.path(path))
@@ -71,10 +71,16 @@ public final class URLSlicer {
             throw URLRouterError.urlHostLost
         }
         
-        let user = components.user.strValue
-        let password = components.password.strValue
-        let port = components.port.strValue
-        let signhost =  "\(user):\(password)@\(host):\(port)"
-        return [.scheme(scheme), .signhost(signhost)]
+        var authority: String
+        let sign = [components.user, components.password].compactMap { $0 }
+        if sign.isEmpty {
+            authority = host
+        } else {
+            authority = sign.joined(separator: ":") + "@" + host
+        }
+        if let port = components.port {
+            authority += port.description
+        }
+        return [.scheme(scheme), .authority(authority)]
     }
 }

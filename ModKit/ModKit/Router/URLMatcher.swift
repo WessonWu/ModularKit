@@ -120,7 +120,7 @@ public final class URLMatcher {
     }
     
     public func unregister(pattern components: URLComponents) -> Bool {
-        guard let result = doMatch(components, exactly: false) else {
+        guard let result = doMatch(components, exactly: true) else {
             return false
         }
         result.subRoutes.removeObject(forKey: URLPatternEndpoint.key)
@@ -139,8 +139,8 @@ public final class URLMatcher {
             switch pattern {
             case let .scheme(scheme):
                 return scheme + ":/"
-            case let .signhost(signhost):
-                return signhost
+            case let .authority(authority):
+                return authority
             case let .path(path):
                 return path
             }
@@ -162,12 +162,14 @@ public final class URLMatcher {
         guard let slices = try? URLSlicer.slice(components: components) else {
             return nil
         }
+        // match: scheme://*, *://*
+        var wildendpoint: URLPatternEndpoint?
+        var wildmatched: [URLSlicePattern] = []
         
         var matched: [URLSlicePattern] = []
         var pathValues: [String] = []
         
         var subRoutes = self.routesMap
-        let wildcard = URLSlice.wildcard
         for slice in slices {
             if let map = subRoutes[slice] as? NSMutableDictionary {
                 subRoutes = map
@@ -179,18 +181,46 @@ public final class URLMatcher {
                 return nil
             }
             
-            if let map = subRoutes[wildcard] as? NSMutableDictionary {
+            let pathVar = URLSlice.pathVariable
+            if let map = subRoutes[pathVar] as? NSMutableDictionary {
                 subRoutes = map
-                matched.append(wildcard)
+                matched.append(pathVar)
                 pathValues.append(slice.rawValue)
+                
                 continue
             }
             
-            return nil
+            let wildcard: URLSlicePattern
+            switch slice {
+            case .scheme:
+                // wildcard scheme
+                wildcard = .schemeWildcard
+            case .authority:
+                // wildcard authority
+                wildcard = .authorityWildcard
+            case .path:
+                // wildcard path
+                wildcard = .pathWildcard
+            }
+            guard let map = subRoutes[wildcard] as? NSMutableDictionary else {
+                break
+            }
+            subRoutes = map
+            matched.append(wildcard)
+            
+            if let endpoint = subRoutes[URLPatternEndpoint.key] as? URLPatternEndpoint {
+                wildmatched = matched
+                wildendpoint = endpoint
+            }
         }
         
         if let endpoint = subRoutes[URLPatternEndpoint.key] as? URLPatternEndpoint {
             return (subRoutes, matched, pathValues, endpoint)
+        }
+        
+        // match with (*://*, scheme://*, scheme://*/*)
+        if let endpoint = wildendpoint {
+            return (subRoutes, wildmatched, [], endpoint)
         }
         return nil
     }

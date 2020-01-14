@@ -2,19 +2,34 @@ import Foundation
 
 public enum URLSlice: Equatable, Hashable {
     case scheme(String)
-    case signhost(String) // <user>:<password>@<host>:<port>
+    case authority(String) // <user>:<password>@<host>:<port>
     case path(String)
     
-    public static var wildcard: URLSlice {
-        return .path("*")
+    public static var schemeWildcard: URLSlice {
+        return .scheme(WildCharacter)
     }
+    
+    public static var authorityWildcard: URLSlice {
+        return .authority(WildCharacter)
+    }
+    
+    public static var pathWildcard: URLSlice {
+        return .path(WildCharacter)
+    }
+    
+    public static var pathVariable: URLSlice {
+        return .path(VarCharacter)
+    }
+    
+    public static let VarCharacter = "<*>"
+    public static let WildCharacter = "*"
     
     public var rawValue: String {
         switch self {
         case let .scheme(scheme):
             return scheme
-        case let .signhost(signhost):
-            return signhost
+        case let .authority(authority):
+            return authority
         case let .path(path):
             return path
         }

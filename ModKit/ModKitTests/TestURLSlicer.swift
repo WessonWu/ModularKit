@@ -58,11 +58,11 @@ class TestURLSlicer: XCTestCase {
         
         comps.host = host
         
-        XCTAssert(try URLSlicer.slice(components: comps) == [.scheme(scheme), .signhost(":@\(host):")])
+        XCTAssert(try URLSlicer.slice(components: comps) == [.scheme(scheme), .authority(host)])
         
         comps.path = path
         
-        XCTAssert(try URLSlicer.slice(components: comps) == [.scheme(scheme), .signhost(":@\(host):"), .path("user"), .path("hello")])
+        XCTAssert(try URLSlicer.slice(components: comps) == [.scheme(scheme), .authority(host), .path("user"), .path("hello")])
         
     }
     
@@ -72,7 +72,7 @@ class TestURLSlicer: XCTestCase {
             
             do {
                 let context = try URLSlicer.parse(pattern: comps)
-                XCTAssert(context.patterns == [.scheme("https"), .signhost(":@www.example.com:"), .path("user"), .wildcard])
+                XCTAssert(context.patterns == [.scheme("https"), .authority("www.example.com"), .path("user"), .pathVariable])
                 XCTAssert(context.pathVars == [URLVariable(name: "username", type: "string")])
                 XCTAssert(context.queryVars == [URLVariable(name: "q1", type: "int"), URLVariable(name: "q2", type: "bool")])
             } catch {

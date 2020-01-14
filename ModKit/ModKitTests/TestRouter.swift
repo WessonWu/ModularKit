@@ -41,6 +41,25 @@ class TestRouter: XCTestCase {
         }
         
         XCTAssertFalse(URLRouter.shared.canOpen("myapp://host/user"))
+        
+        // 通配符
+        URLRouter.shared.register("https://*") { (context) -> Bool in
+            context.completion?(context)
+            return true
+        }
+        
+        URLRouter.shared.register("*://*") { (context) -> Bool in
+            context.completion?(context)
+            return true
+        }
+        
+        URLRouter.shared.open("https://www.example.com/user/host") { (context) in
+            XCTAssertEqual(context.url.absoluteString, "https://www.example.com/user/host")
+        }
+        
+        URLRouter.shared.open("unknown://www.example.com/user/host") { (context) in
+            XCTAssertEqual(context.url.absoluteString, "https://www.example.com/user/host")
+        }
     }
 
     func testPerformanceExample() {
