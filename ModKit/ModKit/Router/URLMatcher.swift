@@ -50,6 +50,7 @@ public final class URLMatcher {
     
     
     private var routesMap: NSMutableDictionary = NSMutableDictionary()
+    private static let serialQueue = DispatchQueue.init(label: "cn.wessonwu.URLRouter.URLMatcher.routesMap") // Thread safe
     public init() {}
     
     public func canMatch(_ url: URLConvertible, exactly: Bool = false) -> Bool {
@@ -100,13 +101,16 @@ public final class URLMatcher {
         
         let patterns = context.patterns
         let tag = tag ?? URLMatcher.format(for: patterns)
-        let route = addURLPatternRoute(patterns: patterns)
-        guard route[URLPatternEndpoint.key] == nil else {
-            return .failure(.ambiguousRegistration)
+        
+        return URLMatcher.serialQueue.sync {
+            let route = addURLPatternRoute(patterns: patterns)
+            guard route[URLPatternEndpoint.key] == nil else {
+                return .failure(.ambiguousRegistration)
+            }
+            // write a record
+            route[URLPatternEndpoint.key] = URLPatternEndpoint(tag: tag, pathVars: context.pathVars, queryVars: context.queryVars)
+            return .success(tag)
         }
-        // write a record
-        route[URLPatternEndpoint.key] = URLPatternEndpoint(tag: tag, pathVars: context.pathVars, queryVars: context.queryVars)
-        return .success(tag)
     }
     
     public func unregister(pattern url: URLConvertible) -> Bool {
@@ -117,20 +121,22 @@ public final class URLMatcher {
             return false
         }
         
-        var route = self.routesMap
-        for slice in context.patterns {
-            guard let map = route[slice] as? NSMutableDictionary else {
-                return false
+        return URLMatcher.serialQueue.sync {
+            var route = self.routesMap
+            for slice in context.patterns {
+                guard let map = route[slice] as? NSMutableDictionary else {
+                    return false
+                }
+                route = map
             }
-            route = map
+            
+            if route.object(forKey: URLPatternEndpoint.key) != nil {
+                route.removeObject(forKey: URLPatternEndpoint.key)
+                return true
+            }
+            
+            return false
         }
-        
-        if route.object(forKey: URLPatternEndpoint.key) != nil {
-            route.removeObject(forKey: URLPatternEndpoint.key)
-            return true
-        }
-        
-        return false
     }
     
     public static func format(for patterns: [URLSlicePattern]) -> String {
@@ -160,17 +166,19 @@ public final class URLMatcher {
     private typealias URLValueEntry = (name: String, value: URLValueCompatible)
     private typealias DoMatchResult = (matched: [URLSlicePattern], pathValues: [URLValueEntry], endpoint: URLPatternEndpoint)
     private func doMatch(_ slices: [URLSlice], exactly: Bool) -> DoMatchResult? {
-        if exactly {
-            return doMatchExactly(slices)
+        return URLMatcher.serialQueue.sync {
+            if exactly {
+                return doMatchExactly(slices)
+            }
+            
+            var matched: [URLSlicePattern] = []
+            var pathValues: [URLValueEntry?] = []
+            if let endpoint = backtrackingMatchRecursively(self.routesMap, slices: slices, index: 0, matched: &matched, pathValues: &pathValues) {
+                return DoMatchResult(matched, pathValues.compactMap({$0}), endpoint)
+            }
+            
+            return nil
         }
-        
-        var matched: [URLSlicePattern] = []
-        var pathValues: [URLValueEntry?] = []
-        if let endpoint = backtrackingMatchRecursively(self.routesMap, slices: slices, index: 0, matched: &matched, pathValues: &pathValues) {
-            return DoMatchResult(matched, pathValues.compactMap({$0}), endpoint)
-        }
-        
-        return nil
     }
     
     private func doMatchExactly(_ slices: [URLSlice]) -> DoMatchResult? {
