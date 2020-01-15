@@ -59,7 +59,8 @@ public final class URLRouter {
     private init() {}
     // MARK: - private Attrs
     private let matcher = URLMatcher()
-    private var openURLHandlers: [AnyHashable: OpenURLHandler] = [:]
+    @SerialAccess(value: [:]) private var openURLHandlers: [AnyHashable: OpenURLHandler]
+    
 //    private var viewControllerHandlers: [AnyHashable: ViewControllerHandler] = [:]
 //    private var valueHandlers: [AnyHashable: AnyValueHandler] = [:]
 }
@@ -108,5 +109,29 @@ public extension URLRouter.Context {
     @inlinable
     func bool(for key: AnyHashable, default value: Bool = false) -> Bool {
         return self[forKey: key, default: value]
+    }
+}
+
+fileprivate extension URLRouter {
+    static let serialQueue = DispatchQueue.init(label: "cn.wessonwu.URLRouter.SerialAccessQueue") // Thread safe
+}
+
+@propertyWrapper
+final class SerialAccess<T> {
+    var value: T
+    var wrappedValue: T {
+        get {
+            return URLRouter.serialQueue.sync {
+                return self.value
+            }
+        }
+        set {
+            URLRouter.serialQueue.async {
+                self.value = newValue
+            }
+        }
+    }
+    init(value: T) {
+        self.value = value
     }
 }
