@@ -194,8 +194,9 @@ class TestURLMatcher: XCTestCase {
             XCTAssertEqual(context?.parameters["intval"] as? Int, 888)
         }
         
-        matches("test8://baidu.com/test8") { (context) in
-            XCTAssertNil(context)
+        matches("test9://baidu.com/test8") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "test9")
         }
         
         matches("test9://test9/unresolved") { (context) in
@@ -240,6 +241,12 @@ class TestURLMatcher: XCTestCase {
         }
         
         matches("test12://any12/test12/12") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "test12")
+            XCTAssertEqual(context?.parameters["test12"] as? Int, 12)
+        }
+        
+        matches("test12://baidu.com/test12/12") { (context) in
             XCTAssertNotNil(context)
             XCTAssertEqual(context?.tag, "test12")
             XCTAssertEqual(context?.parameters["test12"] as? Int, 12)

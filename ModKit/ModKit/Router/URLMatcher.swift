@@ -115,11 +115,21 @@ public final class URLMatcher {
         } catch {
             return false
         }
-        guard let subRoutes = doMatch(context.patterns, exactly: true)?.subRoutes else {
-            return false
+        
+        var route = self.routesMap
+        for slice in context.patterns {
+            guard let map = route[slice] as? NSMutableDictionary else {
+                return false
+            }
+            route = map
         }
-        subRoutes.removeObject(forKey: URLPatternEndpoint.key)
-        return true
+        
+        if route.object(forKey: URLPatternEndpoint.key) != nil {
+            route.removeObject(forKey: URLPatternEndpoint.key)
+            return true
+        }
+        
+        return false
     }
     
     public static func format(for patterns: [URLSlicePattern]) -> String {
@@ -146,69 +156,95 @@ public final class URLMatcher {
         return subRoutes
     }
 
-    private func doMatch(_ slices: [URLSlice], exactly: Bool) -> (subRoutes: NSMutableDictionary?, matched: [URLSlicePattern], pathValues: [String], endpoint: URLPatternEndpoint)? {
-        // match: scheme://*, *://*
-        var wildEndpoint: URLPatternEndpoint?
-        var wildMatched: [URLSlicePattern] = []
-        var wildPathValues: [String] = []
+    private struct DoMatchResult {
+        let matched: [URLSlicePattern]
+        let pathValues: [String]
+        let endpoint: URLPatternEndpoint
+    }
+    
+    private func doMatch(_ slices: [URLSlice], exactly: Bool) -> DoMatchResult? {
+        if exactly {
+            return doMatchExactly(slices)
+        }
         
         var matched: [URLSlicePattern] = []
         var pathValues: [String] = []
+        if let endpoint = backtrackingMatchRecursively(self.routesMap, slices: slices, index: 0, matched: &matched, pathValues: &pathValues) {
+            return DoMatchResult(matched: matched, pathValues: pathValues, endpoint: endpoint)
+        }
         
-        var subRoutes = self.routesMap
+        return nil
+    }
+    
+    private func doMatchExactly(_ slices: [URLSlice]) -> DoMatchResult? {
+        var matched: [URLSlicePattern] = []
+        var route = self.routesMap
         for slice in slices {
-            if let map = subRoutes[slice] as? NSMutableDictionary {
-                subRoutes = map
-                matched.append(slice)
-                continue
-            }
-            
-            if exactly {
+            guard let map = route[slice] as? NSMutableDictionary else {
                 return nil
             }
-            
-            let pathVar = URLSlice.pathVariable
-            if let map = subRoutes[pathVar] as? NSMutableDictionary {
-                subRoutes = map
-                matched.append(pathVar)
-                pathValues.append(slice.rawValue)
-                
-                continue
+            route = map
+            matched.append(slice)
+        }
+        
+        if let endpoint = route[URLPatternEndpoint.key] as? URLPatternEndpoint {
+            return DoMatchResult(matched: matched, pathValues: [], endpoint: endpoint)
+        }
+        return nil
+    }
+    
+    private func backtrackingMatchRecursively(_ route: NSMutableDictionary, slices: [URLSlice], index: Int, matched: inout [URLSlicePattern], pathValues: inout [String]) -> URLPatternEndpoint? {
+        if index == slices.count {
+            return route[URLPatternEndpoint.key] as? URLPatternEndpoint
+        }
+        
+        guard index < slices.count else {
+            return nil
+        }
+        
+        let slice = slices[index]
+        if let subRoute = route[slice] as? NSMutableDictionary {
+            matched.append(slice)
+            if let endpoint = backtrackingMatchRecursively(subRoute, slices: slices, index: index + 1, matched: &matched, pathValues: &pathValues) {
+                return endpoint
+            }
+            matched.removeLast()
+        }
+        
+        let wildcard: URLSlicePattern
+        switch slice {
+        case let .path(rawValue):
+            let pathVariable = URLSlicePattern.pathVariable
+            if let subRoute = route[pathVariable] as? NSMutableDictionary {
+                matched.append(pathVariable)
+                pathValues.append(rawValue)
+                if let endpoint = backtrackingMatchRecursively(subRoute, slices: slices, index: index + 1, matched: &matched, pathValues: &pathValues) {
+                    return endpoint
+                }
+                pathValues.removeLast()
+                matched.removeLast()
             }
             
-            let wildcard: URLSlicePattern
-            switch slice {
-            case .scheme:
-                // wildcard scheme
-                wildcard = .schemeWildcard
-            case .authority:
-                // wildcard authority
-                wildcard = .authorityWildcard
-            case .path:
-                // wildcard path
-                wildcard = .pathWildcard
-            }
-            guard let map = subRoutes[wildcard] as? NSMutableDictionary else {
-                break
-            }
-            subRoutes = map
+            // wildcard path
+            wildcard = .pathWildcard
+        case .scheme:
+            // wildcard scheme
+            wildcard = .schemeWildcard
+        case .authority:
+            // wildcard authority
+            wildcard = .authorityWildcard
+        }
+        
+        if let subRoute = route[wildcard] as? NSMutableDictionary {
             matched.append(wildcard)
-            
-            if let endpoint = subRoutes[URLPatternEndpoint.key] as? URLPatternEndpoint {
-                wildEndpoint = endpoint
-                wildMatched = matched
-                wildPathValues = pathValues
+            if let endpoint = backtrackingMatchRecursively(subRoute, slices: slices, index: index + 1, matched: &matched, pathValues: &pathValues) {
+                return endpoint
+            }
+            if let endpoint = subRoute[URLPatternEndpoint.key] as? URLPatternEndpoint {
+                return endpoint
             }
         }
         
-        if let endpoint = subRoutes[URLPatternEndpoint.key] as? URLPatternEndpoint {
-            return (subRoutes, matched, pathValues, endpoint)
-        }
-        
-        // match with (*://*, scheme://*, scheme://*/*)
-        if let endpoint = wildEndpoint {
-            return (nil, wildMatched, wildPathValues, endpoint)
-        }
         return nil
     }
 }
