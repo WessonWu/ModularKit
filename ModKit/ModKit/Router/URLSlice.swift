@@ -46,14 +46,3 @@ extension URLComponents {
             .map { String($0) }
     }
 }
-
-extension Optional where Wrapped: CustomStringConvertible {
-    var strValue: String {
-        switch self {
-        case .none:
-            return ""
-        case let .some(value):
-            return value.description
-        }
-    }
-}
