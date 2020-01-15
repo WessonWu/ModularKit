@@ -25,7 +25,10 @@ public final class URLRouter {
     }
     
     public static let shared = URLRouter()
+    // MARK: - Init
+    public init() {}
     
+    // MARK: - Register
     @discardableResult
     public func register(_ pattern: URLConvertible, handler: @escaping OpenURLHandler) -> Result<String, URLRouterError> {
         let result = matcher.register(pattern: pattern)
@@ -35,10 +38,12 @@ public final class URLRouter {
         return result
     }
     
+    // MARK: - canOpen
     public func canOpen(_ url: URLConvertible, exactly: Bool = false) -> Bool {
         return matcher.canMatch(url, exactly: exactly)
     }
     
+    // MARK: - open
     @discardableResult
     public func open(_ url: URLConvertible, parameters: [AnyHashable: Any]? = nil, userInfo: [AnyHashable: Any]? = nil, completion: Completion? = nil) -> Bool {
         guard let matchContext = matcher.match(url, exactly: false),
@@ -55,13 +60,10 @@ public final class URLRouter {
         return handler(context)
     }
     
-    // MARK: - private Init
-    private init() {}
     // MARK: - private Attrs
     private let matcher = URLMatcher()
     @SerialAccess(value: [:]) private var openURLHandlers: [AnyHashable: OpenURLHandler]
-    
-//    private var viewControllerHandlers: [AnyHashable: ViewControllerHandler] = [:]
+//    @SerialAccess(value: [:]) private var viewControllerHandlers: [AnyHashable: ViewControllerHandler]
 //    private var valueHandlers: [AnyHashable: AnyValueHandler] = [:]
 }
 
