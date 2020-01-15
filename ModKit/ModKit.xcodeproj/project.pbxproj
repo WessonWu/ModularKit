@@ -27,6 +27,7 @@
 		0A9C466823C6E183000749A5 /* MKModule.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A9C466723C6E183000749A5 /* MKModule.plist */; };
 		0A9C466A23C6FE51000749A5 /* WatchDog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9C466923C6FE51000749A5 /* WatchDog.swift */; };
 		0AE46A0423CC55F7001A9D68 /* TestRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE46A0323CC55F7001A9D68 /* TestRouter.swift */; };
+		0AE46A0823CEDC7A001A9D68 /* URLValueCompatible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE46A0723CEDC7A001A9D68 /* URLValueCompatible.swift */; };
 		0AFC535B23CB4C12002C0198 /* TestURLSlicer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFC535A23CB4C12002C0198 /* TestURLSlicer.swift */; };
 		0AFC535D23CB4D52002C0198 /* TestURLVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFC535C23CB4D52002C0198 /* TestURLVariable.swift */; };
 		0AFC535F23CB5DA8002C0198 /* TestURLMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFC535E23CB5DA8002C0198 /* TestURLMatcher.swift */; };
@@ -73,6 +74,7 @@
 		0A9C466723C6E183000749A5 /* MKModule.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = MKModule.plist; sourceTree = "<group>"; };
 		0A9C466923C6FE51000749A5 /* WatchDog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchDog.swift; sourceTree = "<group>"; };
 		0AE46A0323CC55F7001A9D68 /* TestRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestRouter.swift; sourceTree = "<group>"; };
+		0AE46A0723CEDC7A001A9D68 /* URLValueCompatible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLValueCompatible.swift; sourceTree = "<group>"; };
 		0AFC535A23CB4C12002C0198 /* TestURLSlicer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestURLSlicer.swift; sourceTree = "<group>"; };
 		0AFC535C23CB4D52002C0198 /* TestURLVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestURLVariable.swift; sourceTree = "<group>"; };
 		0AFC535E23CB5DA8002C0198 /* TestURLMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestURLMatcher.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 				0AFF2A4D23C97F74007A3DB1 /* URLVariable.swift */,
 				0AFF2A4F23CAAB8A007A3DB1 /* URLMatcher.swift */,
 				0AFF2A5123CB36A2007A3DB1 /* URLRouterError.swift */,
+				0AE46A0723CEDC7A001A9D68 /* URLValueCompatible.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				0AFF2A4E23C97F74007A3DB1 /* URLVariable.swift in Sources */,
 				0A9C466423C6CB73000749A5 /* ModuleManager+Internal.swift in Sources */,
 				0A9C464723C349FC000749A5 /* ServiceProtocol.swift in Sources */,
+				0AE46A0823CEDC7A001A9D68 /* URLValueCompatible.swift in Sources */,
 				0A9C466023C5A962000749A5 /* ModuleDefines.swift in Sources */,
 				0A9C464923C34A37000749A5 /* ServiceManager.swift in Sources */,
 				0A5BAD8323C877A20051DCC4 /* URLConvertible.swift in Sources */,

@@ -1,7 +1,6 @@
 import Foundation
 
 public struct URLVariable {
-    public typealias TypeConverter = (String) -> Any?
     public let name: String
     public let type: String
     
@@ -10,8 +9,8 @@ public struct URLVariable {
         self.type = type.lowercased()
     }
     
-    public init?(format: String) {
-        let parts = format.split(separator: ":")
+    public init?(path: String) {
+        let parts = path.split(separator: ":")
             .map { $0.trimmingCharacters(in: CharacterSet(charactersIn: " ")) }
             .filter { !$0.isEmpty }
         guard parts.count == 2 else {
@@ -52,10 +51,13 @@ public extension URLVariable {
     }
     
     static func formatOfQuery(_ queryItem: URLQueryItem) -> String {
-        return "\(queryItem.name)=\(queryItem.value.strValue)"
+        guard let value = queryItem.value else {
+            return queryItem.name
+        }
+        return "\(queryItem.name)=\(value)"
     }
     
-    static func format(from str: String) -> String? {
+    internal static func unwrap(from str: String) -> String? {
         guard str.hasPrefix("<") && str.hasSuffix(">") else {
             return nil
         }

@@ -58,7 +58,7 @@ class TestRouter: XCTestCase {
         }
         
         URLRouter.shared.open("unknown://www.example.com/user/host") { (context) in
-            XCTAssertEqual(context.url.absoluteString, "https://www.example.com/user/host")
+            XCTAssertEqual(context.url.absoluteString, "unknown://www.example.com/user/host")
         }
     }
 

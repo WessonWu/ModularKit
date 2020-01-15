@@ -12,7 +12,24 @@ import ModKit
 
 class TestURLMatcher: XCTestCase {
     
-    struct UserName: Equatable {
+    struct UserName: Equatable, URLValueCompatible {
+        init?(_ rawValue: String) {
+            let parts = rawValue.split(separator: " ")
+                .filter { !$0.isEmpty }
+                .map { String($0) }
+            guard parts.count == 2 else {
+                return nil
+            }
+            
+            
+            self.init(firstName: parts[0], lastName: parts[1])
+        }
+        
+        init(firstName: String, lastName: String) {
+            self.firstName = firstName
+            self.lastName = lastName
+        }
+        
         let firstName: String
         let lastName: String
     }
@@ -109,15 +126,7 @@ class TestURLMatcher: XCTestCase {
         }
         
         matches("https://www.example.com/user/test2/10.1") { (context) in
-            XCTAssertNotNil(context)
-            XCTAssertEqual(context?.tag, "test2")
-            XCTAssertEqual(context?.parameters["intval"] as? Int, nil)
-        }
-        
-        matches("https://www.example.com/user/test2/10.1") { (context) in
-            XCTAssertNotNil(context)
-            XCTAssertEqual(context?.tag, "test2")
-            XCTAssertEqual(context?.parameters["intval"] as? Int, nil)
+            XCTAssertNil(context)
         }
         
         matches("https://www.example.com/user/123/test3") { (context) in
@@ -157,16 +166,7 @@ class TestURLMatcher: XCTestCase {
             XCTAssertEqual(params?["k3"] as? Bool, json["k3"] as? Bool)
         }
         
-        URLMatcher.customTypeConverters["username"] = {
-            let parts = $0.split(separator: " ")
-                .filter { !$0.isEmpty }
-                .map { String($0) }
-            guard parts.count == 2 else {
-                return nil
-            }
-            
-            return UserName(firstName: parts[0], lastName: parts[1])
-        }
+        URLMatcher.customValueTypes["username"] = UserName.self
         
         matches("myapp://custom/test7/Kobe Bryant") { (context) in
             XCTAssertNotNil(context)
@@ -176,88 +176,160 @@ class TestURLMatcher: XCTestCase {
     }
     
     func testWildcardExamples() {
-        register("*://baidu.com/test8/<intval: int>", tag: "test8", assertion: registerSuccess(tag: "test8"))
-        register("*://*", tag: "test9", assertion: registerSuccess(tag: "test9"))
-        register("*", tag: "test10", assertion: registerSuccess(tag: "test10"))
-        register("*/test11/<test11:int>", tag: "test11", assertion: registerSuccess(tag: "test11"))
-        register("*://*/test12/<test12:int>", tag: "test12", assertion: registerSuccess(tag: "test12"))
+        register("test8://test8/test8", tag: "test8://test8/test8", assertion: registerSuccess(tag: "test8://test8/test8"))
+        register("test8://test8/<test8:int>", tag: "test8://test8/<test8:int>", assertion: registerSuccess(tag: "test8://test8/<test8:int>"))
+        register("test8://test8/*", tag: "test8://test8/*", assertion: registerSuccess(tag: "test8://test8/*"))
+        register("test8://*/test8", tag: "test8://*/test8", assertion: registerSuccess(tag: "test8://*/test8"))
+        register("test8://*/*", tag: "test8://*/*", assertion: registerSuccess(tag: "test8://*/*"))
+        
+        matches("test8://test8/test8") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "test8://test8/test8")
+        }
+        
+        matches("test8://test8/8") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "test8://test8/<test8:int>")
+            XCTAssertEqual(context?.parameters["test8"] as? Int, 8)
+        }
+        matches("test8://test8/nil") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "test8://test8/*")
+            XCTAssertEqual(context?.parameters["test8"] as? Int, nil)
+        }
+        
+        matches("test8://test8/any") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "test8://test8/*")
+            XCTAssertEqual(context?.parameters["test8"] as? Int, nil)
+        }
+        
+        matches("test8://test8/8/unknown") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "test8://test8/*")
+        }
+        
+        matches("test8://test8/8/unknown/unknown...") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "test8://test8/*")
+        }
+        
+        matches("test8://unknown/test8") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "test8://*/test8")
+        }
+        
+        matches("test8://not_test8/test8") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "test8://*/test8")
+        }
+        
+        matches("test8://not_test8/not_test8") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "test8://*/*")
+        }
+        
+        matches("test8://no_test8/any_not_test8/any_not_test8...") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "test8://*/*")
+        }
+    }
+    
+    func testWildcardExample2() {
+        // 从上至下优先级变低
+        register("*://test9/test9", tag: "*://test9/test9", assertion: registerSuccess(tag: "*://test9/test9"))
+        register("*://test9/<test9:bool>", tag: "*://test9/<test9:bool>", assertion: registerSuccess(tag: "*://test9/<test9:bool>"))
+        register("*://test9/*", tag: "*://test9/*", assertion: registerSuccess(tag: "*://test9/*"))
+        register("*://*/test9", tag: "*://*/test9", assertion: registerSuccess(tag: "*://*/test9"))
+        register("*://*/*", tag: "*://*/*", assertion: registerSuccess(tag: "*://*/*"))
+        register("*://*", tag: "*://*", assertion: registerSuccess(tag: "*://*"))
+        
+        matches("test9://test9/test9") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "*://test9/test9")
+        }
+        
+        matches("test9://test9/true") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "*://test9/<test9:bool>")
+            XCTAssertEqual(context?.parameters["test9"] as? Bool, true)
+        }
+        
+        matches("test9://test9/false") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "*://test9/<test9:bool>")
+            XCTAssertEqual(context?.parameters["test9"] as? Bool, false)
+        }
+        
+        matches("test9://test9/not_bool") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "*://test9/*")
+        }
+        
+        matches("test9://test9/not_bool/not_bool...") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "*://test9/*")
+        }
+        
+        matches("test9://not_test9/test9") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "*://*/test9")
+        }
+        
+        matches("test9://not_test9/not_test9") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "*://*/*")
+        }
+        
+        matches("test9://not_test9/not_test9/not_test9...") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "*://*/*")
+        }
+        
+        matches("test9://not_test9/") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "*://*")
+        }
+        
+        XCTAssertTrue(matcher.unregister(pattern: "*://*/*"))
+        
+        matches("test9://not_test9/not_test9/not_test9...") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "*://*")
+        }
+    }
+    
+    func testWildcardExample3() {
+        register("test10://test10/<test10_1:int>/test10/<test10_2:string>", tag: "test10://test10/<test10_1:int>/test10/<test10_2:string>", assertion: registerSuccess(tag: "test10://test10/<test10_1:int>/test10/<test10_2:string>"))
+        register("test10://test10/*/test10/<test10_2:string>", tag: "test10://test10/*/test10/<test10_2:string>", assertion: registerSuccess(tag: "test10://test10/*/test10/<test10_2:string>"))
+        register("test10://test10/*", tag: "test10://test10/*", assertion: registerSuccess(tag: "test10://test10/*"))
+        
+        matches("test10://test10/101/test10/test10_2") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "test10://test10/<test10_1:int>/test10/<test10_2:string>")
+            XCTAssertEqual(context?.parameters["test10_1"] as? Int, 101)
+            XCTAssertEqual(context?.parameters["test10_2"] as? String, "test10_2")
+        }
+        
+        matches("test10://test10/not_int/test10/test10_2") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "test10://test10/*/test10/<test10_2:string>")
+            XCTAssertEqual(context?.parameters["test10_2"] as? String, "test10_2")
+        }
+        
+        matches("test10://test10/101/not_test10/test10_2") { (context) in
+            XCTAssertNotNil(context)
+            XCTAssertEqual(context?.tag, "test10://test10/*")
+        }
+    }
+    
+    func testWildcardExample4() {
         // scheme: char + digit
         register("_://baidu.com", assertion: registerFailed(mockedError: .underlying))
         register("$://baidu.com", assertion: registerFailed(mockedError: .underlying))
         register("://baidu.com", assertion: registerFailed(mockedError: .underlying))
         register("<ss>://baidu.com", assertion: registerFailed(mockedError: .underlying))
         register("@://baidu.com", assertion: registerFailed(mockedError: .underlying))
-        
-        matches("test8://baidu.com/test8/888") { (context) in
-            XCTAssertNotNil(context)
-            XCTAssertEqual(context?.tag, "test8")
-            XCTAssertEqual(context?.parameters["intval"] as? Int, 888)
-        }
-        
-        matches("test9://baidu.com/test8") { (context) in
-            XCTAssertNotNil(context)
-            XCTAssertEqual(context?.tag, "test9")
-        }
-        
-        matches("test9://test9/unresolved") { (context) in
-            XCTAssertNotNil(context)
-            XCTAssertEqual(context?.tag, "test9")
-        }
-        
-        matches("unknown9://unknown9/unknown9/unknown9/unknown9/unknown9") { (context) in
-            XCTAssertNotNil(context)
-            XCTAssertEqual(context?.tag, "test9")
-        }
-        
-        matches("/unknown/test10") { (context) in
-            XCTAssertNotNil(context)
-            XCTAssertEqual(context?.tag, "test10")
-        }
-        
-        matches("unknown/james") { (context) in
-            XCTAssertNotNil(context)
-            XCTAssertEqual(context?.tag, "test10")
-        }
-        
-        matches("*://unknown/james") { (context) in
-            XCTAssertNotNil(context)
-            XCTAssertEqual(context?.tag, "test10")
-        }
-        
-        matches("@://unknown/james") { (context) in
-            XCTAssertNotNil(context)
-            XCTAssertEqual(context?.tag, "test10")
-        }
-        
-        matches("@http://unknown/james") { (context) in
-            XCTAssertNotNil(context)
-            XCTAssertEqual(context?.tag, "test10")
-        }
-        
-        matches("unknown11/test11/11") { (context) in
-            XCTAssertNotNil(context)
-            XCTAssertEqual(context?.tag, "test11")
-            XCTAssertEqual(context?.parameters["test11"] as? Int, 11)
-        }
-        
-        matches("test12://any12/test12/12") { (context) in
-            XCTAssertNotNil(context)
-            XCTAssertEqual(context?.tag, "test12")
-            XCTAssertEqual(context?.parameters["test12"] as? Int, 12)
-        }
-        
-        matches("test12://baidu.com/test12/12") { (context) in
-            XCTAssertNotNil(context)
-            XCTAssertEqual(context?.tag, "test12")
-            XCTAssertEqual(context?.parameters["test12"] as? Int, 12)
-        }
-    }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
     }
 
 }

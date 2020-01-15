@@ -45,8 +45,8 @@ public final class URLSlicer {
         // path variables
         var pathVars: [URLVariable] = []
         try paths.forEach { path in
-            if let format = URLVariable.format(from: path) {
-                guard let declare = URLVariable(format: format) else {
+            if let format = URLVariable.unwrap(from: path) {
+                guard let declare = URLVariable(path: format) else {
                     throw URLRouterError.unresolvedURLVariable(format)
                 }
                 if let origin = pathVars.first(where: { $0 == declare }) {
@@ -63,7 +63,7 @@ public final class URLSlicer {
         var queryVars: [URLVariable] = []
         try components.queryItems?.forEach { query in
             guard let value = query.value,
-                let type = URLVariable.format(from: value)?.trimmingCharacters(in: CharacterSet(charactersIn: " ")) else {
+                let type = URLVariable.unwrap(from: value)?.trimmingCharacters(in: CharacterSet(charactersIn: " ")) else {
                 return
             }
             let format = URLVariable.formatOfQuery(query)

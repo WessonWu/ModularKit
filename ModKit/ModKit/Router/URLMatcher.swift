@@ -13,28 +13,39 @@ public struct URLMatchContext {
 }
 
 public final class URLMatcher {
-    public static let defaultConverters: [String: URLVariable.TypeConverter] = [
-        "string": { $0 },
-        "int": { Int($0) },
-        "float": { Float($0) },
-        "double": { Double($0) },
-        "bool": { Bool($0) }
+    public static let buildInValueTypes: [String: URLValueCompatible.Type] = [
+        // string
+        "string": String.self,
+        // bool
+        "bool": Bool.self,
+        // int
+        "int": Int.self,
+        "int8": Int8.self,
+        "int16": Int16.self,
+        "int32": Int32.self,
+        "int64": Int64.self,
+        // uint
+        "uint": UInt.self,
+        "uint8": UInt8.self,
+        "uint16": UInt16.self,
+        "uint32": UInt32.self,
+        "uint64": UInt64.self,
+        // float
+        "float": Float.self,
+        "float32": Float32.self,
+        "float64": Float64.self,
+        "float80": Float80.self,
+        // double
+        "double": Double.self
     ]
     
-    public static var customTypeConverters: [String: URLVariable.TypeConverter] = [
-        "json": {
-            guard let data = $0.data(using: .utf8) else {
-                return nil
-            }
-            return try? JSONSerialization.jsonObject(with: data, options: .allowFragments)
-        }
-    ]
+    public static var customValueTypes: [String: URLValueCompatible.Type] = ["json": [AnyHashable: Any].self]
     
-    public class func converter(of type: String) -> URLVariable.TypeConverter? {
-        if let converter = defaultConverters[type] {
-            return converter
+    public class func valueType(of type: String) -> URLValueCompatible.Type? {
+        if let value = buildInValueTypes[type] {
+            return value
         }
-        return customTypeConverters[type]
+        return customValueTypes[type]
     }
     
     
@@ -65,22 +76,12 @@ public final class URLMatcher {
         // parse query variables
         endpoint.queryVars?.forEach({ (queryVar) in
             if let rawValue = parameters[queryVar.name] as? String,
-                let converter = URLMatcher.converter(of: queryVar.type) {
-                parameters[queryVar.name] = converter(rawValue)
+                let valueType = URLMatcher.valueType(of: queryVar.type) {
+                parameters[queryVar.name] = valueType.init(rawValue)
             }
         })
-        // parse path variables
-        if let pathVars = endpoint.pathVars {
-            let count = min(pathVars.count, pathValues.count)
-            for index in (0 ..< count) {
-                let pathVar = pathVars[index]
-                let rawValue = pathValues[index]
-                if let converter = URLMatcher.converter(of: pathVar.type) {
-                    parameters[pathVar.name] = converter(rawValue)
-                } else {
-                    parameters[pathVar.name] = rawValue
-                }
-            }
+        pathValues.forEach { (key, value) in
+            parameters[key] = value
         }
         return URLMatchContext(tag: endpoint.tag, matched: result.matched, parameters: parameters)
     }
@@ -156,21 +157,17 @@ public final class URLMatcher {
         return subRoutes
     }
 
-    private struct DoMatchResult {
-        let matched: [URLSlicePattern]
-        let pathValues: [String]
-        let endpoint: URLPatternEndpoint
-    }
-    
+    private typealias URLValueEntry = (name: String, value: URLValueCompatible)
+    private typealias DoMatchResult = (matched: [URLSlicePattern], pathValues: [URLValueEntry], endpoint: URLPatternEndpoint)
     private func doMatch(_ slices: [URLSlice], exactly: Bool) -> DoMatchResult? {
         if exactly {
             return doMatchExactly(slices)
         }
         
         var matched: [URLSlicePattern] = []
-        var pathValues: [String] = []
+        var pathValues: [URLValueEntry?] = []
         if let endpoint = backtrackingMatchRecursively(self.routesMap, slices: slices, index: 0, matched: &matched, pathValues: &pathValues) {
-            return DoMatchResult(matched: matched, pathValues: pathValues, endpoint: endpoint)
+            return DoMatchResult(matched, pathValues.compactMap({$0}), endpoint)
         }
         
         return nil
@@ -193,7 +190,7 @@ public final class URLMatcher {
         return nil
     }
     
-    private func backtrackingMatchRecursively(_ route: NSMutableDictionary, slices: [URLSlice], index: Int, matched: inout [URLSlicePattern], pathValues: inout [String]) -> URLPatternEndpoint? {
+    private func backtrackingMatchRecursively(_ route: NSMutableDictionary, slices: [URLSlice], index: Int, matched: inout [URLSlicePattern], pathValues: inout [URLValueEntry?]) -> URLPatternEndpoint? {
         if index == slices.count {
             return route[URLPatternEndpoint.key] as? URLPatternEndpoint
         }
@@ -216,13 +213,24 @@ public final class URLMatcher {
         case let .path(rawValue):
             let pathVariable = URLSlicePattern.pathVariable
             if let subRoute = route[pathVariable] as? NSMutableDictionary {
+                let originMatchedCount = matched.count
+                let originPathValuesCount = pathValues.count
+                
                 matched.append(pathVariable)
-                pathValues.append(rawValue)
-                if let endpoint = backtrackingMatchRecursively(subRoute, slices: slices, index: index + 1, matched: &matched, pathValues: &pathValues) {
-                    return endpoint
+                pathValues.append(nil) // placeholder
+                if let endpoint = backtrackingMatchRecursively(subRoute, slices: slices, index: index + 1, matched: &matched, pathValues: &pathValues),
+                    let pathVars = endpoint.pathVars,
+                    originPathValuesCount < pathVars.count  {
+                    let pathVar = pathVars[originPathValuesCount]
+                    if let valueType = URLMatcher.valueType(of: pathVar.type),
+                        let value = valueType.init(rawValue) {
+                        pathValues[originPathValuesCount] = (pathVar.name, value)
+                        return endpoint
+                    }
                 }
-                pathValues.removeLast()
-                matched.removeLast()
+                
+                pathValues.removeLast(pathValues.count - originPathValuesCount)
+                matched.removeLast(matched.count - originMatchedCount)
             }
             
             // wildcard path
@@ -243,6 +251,7 @@ public final class URLMatcher {
             if let endpoint = subRoute[URLPatternEndpoint.key] as? URLPatternEndpoint {
                 return endpoint
             }
+            matched.removeLast()
         }
         
         return nil

@@ -23,8 +23,8 @@ class TestURLVariable: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
         
-        let var1 = URLVariable(format: "username: String")
-        let var2 = URLVariable(format: "username: int")
+        let var1 = URLVariable(path: "username: String")
+        let var2 = URLVariable(path: "username: int")
         
         XCTAssertNotNil(var1)
         XCTAssertNotNil(var2)
@@ -34,20 +34,11 @@ class TestURLVariable: XCTestCase {
         XCTAssert(var2!.name == "username")
         XCTAssert(var2!.type == "int")
         
-        let format = URLVariable.format(from: "<username: string>")
-        XCTAssertNotNil(format)
-        XCTAssert(format == "username: string")
-        
-        XCTAssertNil(URLVariable.format(from: "username: string>"))
-        XCTAssertNil(URLVariable.format(from: "<username: string"))
-        XCTAssertNil(URLVariable.format(from: "username: string"))
-        XCTAssertNotNil(URLVariable.format(from: "<>"))
-        
-        XCTAssertNil(URLVariable(format: ""))
-        XCTAssertNil(URLVariable(format: "username"))
-        XCTAssertNil(URLVariable(format: "username:"))
-        XCTAssertNil(URLVariable(format: " :int"))
-        XCTAssertNil(URLVariable(format: "   :   int"))
+        XCTAssertNil(URLVariable(path: ""))
+        XCTAssertNil(URLVariable(path: "username"))
+        XCTAssertNil(URLVariable(path: "username:"))
+        XCTAssertNil(URLVariable(path: " :int"))
+        XCTAssertNil(URLVariable(path: "   :   int"))
     }
 
     func testPerformanceExample() {
