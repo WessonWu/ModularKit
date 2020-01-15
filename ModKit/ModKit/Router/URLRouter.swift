@@ -41,7 +41,7 @@ public final class URLRouter {
     
     @discardableResult
     public func open(_ url: URLConvertible, parameters: [AnyHashable: Any]? = nil, userInfo: [AnyHashable: Any]? = nil, completion: Completion? = nil) -> Bool {
-        guard let matchContext = matcher.matches(url, exactly: false),
+        guard let matchContext = matcher.match(url, exactly: false),
             let handler = openURLHandlers[matchContext.tag] else {
             
             return false

@@ -60,7 +60,7 @@ public final class URLMatcher {
         return doMatch(URLSlicer.slice(components: components), exactly: exactly) != nil
     }
     
-    public func matches(_ url: URLConvertible, exactly: Bool = false) -> URLMatchContext? {
+    public func match(_ url: URLConvertible, exactly: Bool = false) -> URLMatchContext? {
         guard let components = url.urlComponents else {
             return nil
         }
