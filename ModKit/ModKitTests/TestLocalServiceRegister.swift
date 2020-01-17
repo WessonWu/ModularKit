@@ -23,13 +23,11 @@ final class TestLocalServiceImpl: NSObject, TestLocalServiceProtocol {
 
 class TestLocalServiceRegister: XCTestCase {
     
-    var manager: ServiceManager {
-        return ServiceManager.shared
-    }
+    var manager: ServiceManager!
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        
+        manager = ServiceManager()
         let bundle = Bundle(for: TestLocalServiceRegister.self)
         if let url = bundle.url(forResource: "MKService", withExtension: "plist") {
             manager.config = .fileURL(url)
@@ -43,12 +41,4 @@ class TestLocalServiceRegister: XCTestCase {
         let service = manager.createService(TestLocalServiceProtocol.self)
         XCTAssertNotNil(service)
     }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }

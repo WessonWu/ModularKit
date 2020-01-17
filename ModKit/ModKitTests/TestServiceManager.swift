@@ -57,8 +57,10 @@ final class TestBImpl: NSObject, TestBProtocol {
 
 
 class TestServiceManager: XCTestCase {
-    var manager: ServiceManager {
-        return ServiceManager.shared
+    var manager: ServiceManager!
+    
+    override func setUp() {
+        manager = ServiceManager()
     }
     
     func testServicesWithName() {
@@ -88,11 +90,8 @@ class TestServiceManager: XCTestCase {
         
         do {
             XCTAssertNotNil(manager.unregisterService(named: testA))
-            XCTAssertNotNil(manager.unregisterService(TestAProtocol.self))
             XCTAssertNil(manager.createService(named: testA))
             XCTAssertNotNil(manager.createService(named: testB))
-            XCTAssertNil(manager.createService(TestAProtocol.self))
-            XCTAssertNotNil(manager.createService(TestBProtocol.self))
         }
     }
     
@@ -120,47 +119,26 @@ class TestServiceManager: XCTestCase {
             let serviceB = manager.createService(TestBProtocol.self)
             XCTAssert(serviceB?.test() == testB)
         }
+        
+        XCTAssertNotNil(manager.unregisterService(TestBProtocol.self))
+        XCTAssertNotNil(manager.createService(TestAProtocol.self))
+        XCTAssertNil(manager.createService(TestBProtocol.self))
     }
     
     func testServiceCache() {
-        let testA = "TestA"
-        let testB = "TestB"
-        manager.cleanAllServiceCache()
+        manager.registerService(TestAProtocol.self, lazyCreator: TestAImpl())
+        let serviceA1 = manager.createService(TestAProtocol.self, shouldCache: true)
+        let serviceA2 = manager.getService(TestAProtocol.self)
+        XCTAssertNotNil(serviceA1)
+        XCTAssertNotNil(serviceA2)
+        XCTAssertEqual(serviceA1?.value, serviceA2?.value)
         
-        do {
-            manager.registerService(named: testA, creator: { TestAImpl() })
-            let serviceA1 = manager.createService(named: testA, shouldCache: true) as? TestProtocol
-            let serviceA2 = manager.getService(named: testA) as? TestProtocol
-            XCTAssertNotNil(serviceA1)
-            XCTAssertNotNil(serviceA2)
-            XCTAssert(serviceA1?.value == serviceA2?.value)
-            
-            manager.cleanServiceCache(named: testA)
-            XCTAssertNil(manager.getService(named: testA))
-            
-            manager.registerService(named: testB, creator: { TestBImpl() })
-            let serviceB1 = manager.createService(named: testB, shouldCache: false) as? TestProtocol
-            let serviceB2 = manager.getService(named: testB) as? TestProtocol
-            XCTAssertNotNil(serviceB1)
-            XCTAssertNil(serviceB2)
-            XCTAssert(serviceB1?.value != serviceB2?.value)
-        }
-        
-        do {
-            manager.registerService(TestAProtocol.self, creator: { TestAImpl() })
-            let serviceA1 = manager.createService(TestAProtocol.self, shouldCache: true)
-            let serviceA2 = manager.getService(TestAProtocol.self)
-            XCTAssertNotNil(serviceA1)
-            XCTAssertNotNil(serviceA2)
-            XCTAssert(serviceA1?.value == serviceA2?.value)
-            
-            manager.registerService(TestBProtocol.self, lazyCreator: TestBImpl())
-            let serviceB1 = manager.createService(TestBProtocol.self, shouldCache: false)
-            let serviceB2 = manager.getService(TestBProtocol.self)
-            XCTAssertNotNil(serviceB1)
-            XCTAssertNil(serviceB2)
-            XCTAssert(serviceB1?.value != serviceB2?.value)
-        }
+        manager.registerService(TestBProtocol.self, lazyCreator: TestBImpl())
+        let serviceB1 = manager.createService(TestBProtocol.self, shouldCache: false)
+        let serviceB2 = manager.getService(TestBProtocol.self)
+        XCTAssertNotNil(serviceB1)
+        XCTAssertNil(serviceB2)
+        XCTAssertNotEqual(serviceB1?.value, serviceB2?.value)
     }
     
     func testRegisterBatchServices() {

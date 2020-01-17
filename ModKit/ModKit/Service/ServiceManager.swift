@@ -11,7 +11,7 @@ import Foundation
 
 public final class ServiceManager {
     public typealias ServiceCreator = () -> Any
-    public static let shared = ServiceManager()
+    public static let `default` = ServiceManager()
     
     public static let localModuleKey = "module"
     public static let localServiceKey = "service"
@@ -19,7 +19,7 @@ public final class ServiceManager {
     
     public var config: ConfigSource = .none
     
-    private init() {}
+    public init() {}
     
     /// Service 同步
     private let serviceQueue = DispatchQueue(label: "com.4399.ModuleKit.serviceManager.queue")
