@@ -21,10 +21,8 @@ class TestModuleManager: XCTestCase {
         return ModuleManager.shared
     }
     
-    override func invokeTest() {
-        // 先清空
+    override func setUp() {
         manager.unregisterAllModules()
-        super.invokeTest()
     }
     
     func testRegister() {
