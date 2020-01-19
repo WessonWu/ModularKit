@@ -10,21 +10,29 @@
 			<key>moduleClass</key>
 			<string>HomeModule</string>
 			<key>moduleLevel</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>modulePriority</key>
-			<integer>100</integer>
+			<integer>0</integer>
 		</dict>
 		<dict>
 			<key>moduleName</key>
 			<string>ModKitDemo</string>
 			<key>moduleClass</key>
 			<string>TradeModule</string>
+			<key>moduleLevel</key>
+			<integer>0</integer>
+			<key>modulePriority</key>
+			<integer>1000</integer>
 		</dict>
 		<dict>
 			<key>moduleName</key>
 			<string>ModKitDemo</string>
 			<key>moduleClass</key>
 			<string>UserModule</string>
+			<key>moduleLevel</key>
+			<integer>0</integer>
+			<key>modulePriority</key>
+			<string>999</string>
 		</dict>
 	</array>
 </dict>

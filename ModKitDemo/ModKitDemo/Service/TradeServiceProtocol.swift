@@ -12,5 +12,5 @@ import ModKit
 public protocol TradeServiceProtocol: ServiceProtocol {
     var itemId: String { get set }
     
-    func trade(_ id: String)
+    func trade(_ item: String)
 }

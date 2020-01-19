@@ -8,6 +8,9 @@
 
 import UIKit
 import ModKit
+public extension ModuleEvent.Name {
+    static let didTrade = ModuleEvent.Name(rawValue: "DidTrade")
+}
 
 @objc
 public protocol HomeServiceProtocol: ServiceProtocol {

@@ -17,10 +17,8 @@
 		0A21AF9A23D1B1BE00113462 /* HomeModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A21AF9923D1B1BE00113462 /* HomeModule.swift */; };
 		0A21AF9C23D1B2B000113462 /* TradeModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A21AF9B23D1B2B000113462 /* TradeModule.swift */; };
 		0A21AF9E23D1B2CA00113462 /* UserModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A21AF9D23D1B2CA00113462 /* UserModule.swift */; };
-		0A21AFA023D1B2FB00113462 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A21AF9F23D1B2FB00113462 /* UserViewController.swift */; };
 		0A21AFA223D1B35100113462 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A21AFA123D1B35100113462 /* UserService.swift */; };
 		0A21AFA423D1B49A00113462 /* TradeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A21AFA323D1B49A00113462 /* TradeViewController.swift */; };
-		0A21AFA623D1B5B400113462 /* TradeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A21AFA523D1B5B400113462 /* TradeService.swift */; };
 		0A21AFA823D1B6D100113462 /* Modules.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A21AFA723D1B6D100113462 /* Modules.plist */; };
 		0A21AFAA23D1B7F300113462 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A21AFA923D1B7F300113462 /* HomeViewController.swift */; };
 /* End PBXBuildFile section */
@@ -50,10 +48,8 @@
 		0A21AF9923D1B1BE00113462 /* HomeModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModule.swift; sourceTree = "<group>"; };
 		0A21AF9B23D1B2B000113462 /* TradeModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeModule.swift; sourceTree = "<group>"; };
 		0A21AF9D23D1B2CA00113462 /* UserModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModule.swift; sourceTree = "<group>"; };
-		0A21AF9F23D1B2FB00113462 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		0A21AFA123D1B35100113462 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		0A21AFA323D1B49A00113462 /* TradeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeViewController.swift; sourceTree = "<group>"; };
-		0A21AFA523D1B5B400113462 /* TradeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeService.swift; sourceTree = "<group>"; };
 		0A21AFA723D1B6D100113462 /* Modules.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Modules.plist; sourceTree = "<group>"; };
 		0A21AFA923D1B7F300113462 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -133,7 +129,6 @@
 			children = (
 				0A21AF9B23D1B2B000113462 /* TradeModule.swift */,
 				0A21AFA323D1B49A00113462 /* TradeViewController.swift */,
-				0A21AFA523D1B5B400113462 /* TradeService.swift */,
 			);
 			path = Trade;
 			sourceTree = "<group>";
@@ -142,7 +137,6 @@
 			isa = PBXGroup;
 			children = (
 				0A21AF9D23D1B2CA00113462 /* UserModule.swift */,
-				0A21AF9F23D1B2FB00113462 /* UserViewController.swift */,
 				0A21AFA123D1B35100113462 /* UserService.swift */,
 			);
 			path = User;
@@ -260,13 +254,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A21AF9823D1B08600113462 /* HomeServiceProtocol.swift in Sources */,
-				0A21AFA023D1B2FB00113462 /* UserViewController.swift in Sources */,
 				0A21AFA423D1B49A00113462 /* TradeViewController.swift in Sources */,
 				0A21AF9C23D1B2B000113462 /* TradeModule.swift in Sources */,
 				0A21AFAA23D1B7F300113462 /* HomeViewController.swift in Sources */,
 				0A21AF9E23D1B2CA00113462 /* UserModule.swift in Sources */,
 				0A21AF9A23D1B1BE00113462 /* HomeModule.swift in Sources */,
-				0A21AFA623D1B5B400113462 /* TradeService.swift in Sources */,
 				0A21AFA223D1B35100113462 /* UserService.swift in Sources */,
 				0A1F198023BF3F8E00CED36F /* AppDelegate.swift in Sources */,
 				0A21AF9423D1AFB200113462 /* UserServiceProtocol.swift in Sources */,

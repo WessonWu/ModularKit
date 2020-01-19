@@ -7,13 +7,51 @@
 //
 
 import UIKit
+import ModKit
 
-class TradeViewController: UIViewController {
+class TradeViewController: UIViewController, TradeServiceProtocol {
+    
+    lazy var itemLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.black
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    lazy var tradeLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.blue
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    var itemId: String = "" {
+        didSet {
+            itemLabel.text = itemId
+        }
+    }
+    
+    func trade(_ item: String) {
+        tradeLabel.text = "Trade the item: \(item)"
+        ModuleManager.shared.postEvent(name: .didTrade, userInfo: ["item": item])
+    }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        self.view.backgroundColor = UIColor.white
+        
+        self.view.addSubview(itemLabel)
+        self.view.addSubview(tradeLabel)
+        itemLabel.text = itemId
+        
+        NSLayoutConstraint.activate([
+            itemLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            itemLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -30),
+            
+            tradeLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            tradeLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 30)
+        ])
     }
     
 

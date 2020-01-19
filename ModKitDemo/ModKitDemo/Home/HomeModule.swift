@@ -24,4 +24,13 @@ final class HomeModule: NSObject, ModuleProtocol {
     func moduleWillResignActive(application: UIApplication) {
         print(NSStringFromClass(type(of: self)), #function)
     }
+    
+    func moduleDidReceiveEvent(event: ModuleEvent) {
+        switch event.name {
+        case .didTrade:
+            print("Receive Event: \(event.name)", event.userInfo?["item"] as? String ?? "")
+        default:
+            break
+        }
+    }
 }

@@ -19,7 +19,15 @@ class AppDelegate: ApplicationDelegate {
         
         let result = super.application(application, didFinishLaunchingWithOptions: launchOptions)
         
-        if let homeService = HomeServiceProtocol
+        if let homeService = ServiceManager.default.getService(HomeServiceProtocol.self) {
+            if let homeVC = homeService as? UIViewController {
+                let window = UIWindow(frame: UIScreen.main.bounds)
+                window.backgroundColor = UIColor.white
+                window.rootViewController = UINavigationController(rootViewController: homeVC)
+                window.makeKeyAndVisible()
+                self.window = window
+            }
+        }
         
         return result
     }

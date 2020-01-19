@@ -32,7 +32,7 @@ public struct ModulePriority: RawRepresentable, Comparable, Hashable {
 }
 
 public struct ModuleEvent {
-    public struct Name: RawRepresentable, Equatable, Hashable {
+    public struct Name: RawRepresentable, Equatable, Hashable, CustomStringConvertible {
         public typealias RawValue = String
         public let rawValue: String
         
@@ -47,23 +47,5 @@ public struct ModuleEvent {
     public init(name: Name, userInfo: [AnyHashable: Any]? = nil) {
         self.name = name
         self.userInfo = userInfo
-    }
-}
-
-public struct AnyModule: Equatable, Hashable {
-    public let identifier: String
-    public let module: ModuleProtocol
-    
-    public init(_ module: ModuleProtocol) {
-        self.identifier = NSStringFromClass(type(of: module))
-        self.module = module
-    }
-    
-    public static func == (lhs: AnyModule, rhs: AnyModule) -> Bool {
-        return lhs.identifier == rhs.identifier
-    }
-    
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(identifier)
     }
 }
