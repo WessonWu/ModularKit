@@ -13,16 +13,12 @@ public final class ServiceManager {
     public typealias ServiceCreator = () -> Any
     public static let `default` = ServiceManager()
     
-    public static let localModuleKey = "module"
-    public static let localServiceKey = "service"
-    public static let localImplKey = "impl"
-    
-    public var config: ConfigSource = .none
+    public var source: ConfigSource = .none
     
     public init() {}
     
     /// Service 同步
-    private let serviceQueue = DispatchQueue(label: "com.4399.ModuleKit.serviceManager.queue")
+    private let serviceQueue = DispatchQueue(label: "cn.wessonwu.ModuleKit.serviceManager.queue")
     /// Service构建者
     private var creatorsMap: [String: ServiceCreator] = [:]
     /// service缓存
@@ -125,16 +121,16 @@ public extension ServiceManager {
     }
     
     func registerLocalServices() {
-        guard let fileURL = self.config.fileURL,
+        guard let fileURL = self.source.fileURL,
             let serviceList = NSArray(contentsOf: fileURL) else {
             return
         }
         
         let entries = serviceList.compactMap { (value) -> ServiceEntry? in
             guard let item = value as? [String: String],
-                let moduleName = item[ServiceManager.localModuleKey],
-                let serviceName = item[ServiceManager.localServiceKey],
-                let implName = item[ServiceManager.localImplKey] else {
+                let moduleName = item[ServiceConfigKey.moduleName],
+                let serviceName = item[ServiceConfigKey.serviceClass],
+                let implName = item[ServiceConfigKey.serviceImpl] else {
                 return nil
             }
             

@@ -8,17 +8,18 @@
 
 import Foundation
 
+public enum ModuleEnvironment: Int {
+    case develop // 开发环境
+    case test // 测试环境
+    case stage // 待发布状态
+    case product // 生产环境
+}
 
 public final class ModuleManager {
     public static let shared = ModuleManager()
     // MARK: - Public
-    public static let localModuleListKey = "moduleList"
-    public static let localModuleNameKey = "moduleName"
-    public static let localModuleClassKey = "moduleClass"
-    public static let localModuleLevelKey = "moduleLevel"
-    public static let localModulePriorityKey = "modulePriority"
-    
-    public var config: ConfigSource = .none
+    public var environment: ModuleEnvironment = .develop
+    public var source: ConfigSource = .none
     
     // MARK: - Init
     private init() {}
@@ -63,15 +64,15 @@ public extension ModuleManager {
     }
     
     func registerLocalModules() {
-        guard let fileURL = self.config.fileURL,
+        guard let fileURL = self.source.fileURL,
             let moduleList = NSDictionary(contentsOf: fileURL),
-            let modulesArray = moduleList[ModuleManager.localModuleListKey] as? [[String: Any]] else {
+            let modulesArray = moduleList[ModuleConfigKey.moduleList] as? [[String: Any]] else {
             return
         }
 
         let modules = modulesArray.compactMap { (item) -> ModuleInfo? in
-            guard let moduleName = item[ModuleManager.localModuleNameKey] as? String,
-                let className = item[ModuleManager.localModuleClassKey] as? String else {
+            guard let moduleName = item[ModuleConfigKey.moduleName] as? String,
+                let className = item[ModuleConfigKey.moduleClass] as? String else {
                 return nil
             }
 
@@ -81,12 +82,12 @@ public extension ModuleManager {
             }
             
             var level: ModuleLevel? = nil
-            if let rawValue = item[ModuleManager.localModuleLevelKey] as? Int {
+            if let rawValue = item[ModuleConfigKey.moduleLevel] as? Int {
                 level = ModuleLevel(rawValue: rawValue)
             }
             
             var priority: ModulePriority? = nil
-            if let rawValue = item[ModuleManager.localModulePriorityKey] as? Int {
+            if let rawValue = item[ModuleConfigKey.modulePriority] as? Int {
                 priority = ModulePriority(rawValue: rawValue)
             }
 

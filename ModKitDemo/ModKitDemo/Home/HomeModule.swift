@@ -14,7 +14,7 @@ final class HomeModule: NSObject, ModuleProtocol {
     func moduleSetUp() {
         print(NSStringFromClass(type(of: self)), #function)
         
-        ServiceManager.default.registerService(HomeServiceProtocol.self, instance: HomeViewController())
+        ServiceManager.default.registerService(HomeServiceProtocol.self, lazyCreator: HomeViewController())
     }
     
     func moduleDidBecomeActive(application: UIApplication) {

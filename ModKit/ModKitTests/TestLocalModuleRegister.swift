@@ -29,7 +29,7 @@ class TestLocalModuleRegister: XCTestCase {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         let bundle = Bundle(for: TestLocalModuleRegister.self)
         if let url = bundle.url(forResource: "MKModule", withExtension: "plist") {
-            manager.config = .fileURL(url)
+            manager.source = .fileURL(url)
             manager.registerLocalModules()
         }
     }

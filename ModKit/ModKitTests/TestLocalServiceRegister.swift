@@ -30,7 +30,7 @@ class TestLocalServiceRegister: XCTestCase {
         manager = ServiceManager()
         let bundle = Bundle(for: TestLocalServiceRegister.self)
         if let url = bundle.url(forResource: "MKService", withExtension: "plist") {
-            manager.config = .fileURL(url)
+            manager.source = .fileURL(url)
             manager.registerLocalServices()
         }
     }

@@ -13,7 +13,7 @@ final class TradeModule: NSObject, ModuleProtocol {
     func moduleSetUp() {
         print(NSStringFromClass(type(of: self)), #function)
         
-        ServiceManager.default.registerService(TradeServiceProtocol.self, instance: TradeViewController())
+        ServiceManager.default.registerService(TradeServiceProtocol.self, lazyCreator: TradeViewController())
     }
     
     func moduleDidBecomeActive(application: UIApplication) {

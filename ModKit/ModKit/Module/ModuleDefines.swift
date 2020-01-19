@@ -39,6 +39,10 @@ public struct ModuleEvent {
         public init(rawValue: String) {
             self.rawValue = rawValue
         }
+        
+        public var description: String {
+            return rawValue
+        }
     }
     
     public let name: Name

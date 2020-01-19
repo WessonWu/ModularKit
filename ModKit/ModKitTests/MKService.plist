@@ -3,11 +3,11 @@
 <plist version="1.0">
 <array>
 	<dict>
-		<key>module</key>
+		<key>moduleName</key>
 		<string>ModKitTests</string>
-		<key>service</key>
+		<key>serviceClass</key>
 		<string>TestLocalServiceProtocol</string>
-		<key>impl</key>
+		<key>serviceImpl</key>
 		<string>TestLocalServiceImpl</string>
 	</dict>
 </array>

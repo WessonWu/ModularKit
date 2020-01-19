@@ -14,12 +14,13 @@ class AppDelegate: ApplicationDelegate {
     var window: UIWindow?
     
     override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        ModuleManager.shared.config = .fileName("Modules")
+        ModuleManager.shared.environment = .develop
+        ModuleManager.shared.source = .fileName("Modules")
         ModuleManager.shared.registerLocalModules()
         
         let result = super.application(application, didFinishLaunchingWithOptions: launchOptions)
         
-        if let homeService = ServiceManager.default.getService(HomeServiceProtocol.self) {
+        if let homeService = ServiceManager.default.createService(HomeServiceProtocol.self) {
             if let homeVC = homeService as? UIViewController {
                 let window = UIWindow(frame: UIScreen.main.bounds)
                 window.backgroundColor = UIColor.white

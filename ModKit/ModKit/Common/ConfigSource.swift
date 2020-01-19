@@ -26,3 +26,17 @@ public extension ConfigSource {
         }
     }
 }
+
+public enum ServiceConfigKey {
+    public static let moduleName = "moduleName"
+    public static let serviceClass = "serviceClass"
+    public static let serviceImpl = "serviceImpl"
+}
+
+public enum ModuleConfigKey {
+    public static let moduleList = "moduleList"
+    public static let moduleName = "moduleName"
+    public static let moduleClass = "moduleClass"
+    public static let moduleLevel = "moduleLevel"
+    public static let modulePriority = "modulePriority"
+}
